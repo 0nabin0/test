@@ -1,0 +1,1294 @@
+EPISODES = 2500
+
+
+class Agent:
+    def __init__(self, numOfStates, numOfActions):
+        self.numOfStates = numOfStates
+        self.numOfActions = numOfActions
+        self.memory = deque(maxlen=10000)
+        self.gamma = 0.99    # discount rate
+        self.epsilon = 0.95  # exploration rate
+        self.epsilon_min = 0.01
+        self.epsilon_decay = 0.996
+        self.learning_rate = 0.00007
+        self.epsilon_linear_decay = 0.0006
+        self.model = self._build_model()
+        self.minibatch_size = 20
+        self.hiddenLayer1Size = 150
+        self.hiddenLayer2Size = 150
+
+    def _build_model(self):
+        # Neural Net for Deep-Q learning Model
+        model = Sequential()
+        model.add(Dense(150, input_dim=self.numOfStates, activation='relu'))
+        model.add(Dense(150, activation='relu'))
+
+
+/usr/bin/python3.5 /home/nabin/PycharmProjects/untitled/myOwnProper.py
+Using TensorFlow backend.
+WARN: gym.spaces.Box autodetected dtype as <class 'numpy.float32'>. Please provide explicit dtype.
+2018-07-02 15:32:13.746274: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+episode: 0/2500, score: 80, e: 0.95, reward: -144.7073438467877, runningAvg: -1000
+episode: 1/2500, score: 92, e: 0.95, reward: -153.37217013392507, runningAvg: -1000
+episode: 2/2500, score: 112, e: 0.95, reward: -546.9696315713602, runningAvg: -1000
+episode: 3/2500, score: 91, e: 0.95, reward: -384.58981911673453, runningAvg: -1000
+episode: 4/2500, score: 97, e: 0.95, reward: -359.0067745540106, runningAvg: -1000
+episode: 5/2500, score: 142, e: 0.95, reward: -383.6842544642002, runningAvg: -1000
+episode: 6/2500, score: 124, e: 0.95, reward: -25.518413792865786, runningAvg: -1000
+episode: 7/2500, score: 117, e: 0.95, reward: -197.86406022580454, runningAvg: -1000
+episode: 8/2500, score: 119, e: 0.95, reward: -381.5705531429046, runningAvg: -1000
+episode: 9/2500, score: 97, e: 0.94, reward: -322.4100160701987, runningAvg: -1000
+episode: 10/2500, score: 66, e: 0.94, reward: -125.072763115611, runningAvg: -1000
+episode: 11/2500, score: 97, e: 0.94, reward: -218.15116153558355, runningAvg: -1000
+episode: 12/2500, score: 121, e: 0.94, reward: -208.48546090671093, runningAvg: -1000
+episode: 13/2500, score: 97, e: 0.94, reward: -402.7549729533775, runningAvg: -1000
+episode: 14/2500, score: 104, e: 0.94, reward: -459.05542650086306, runningAvg: -1000
+episode: 15/2500, score: 80, e: 0.94, reward: -246.9339824224537, runningAvg: -1000
+episode: 16/2500, score: 81, e: 0.94, reward: -236.26069566234645, runningAvg: -1000
+episode: 17/2500, score: 68, e: 0.94, reward: -141.21901818266323, runningAvg: -1000
+episode: 18/2500, score: 124, e: 0.94, reward: -137.68055037586717, runningAvg: -1000
+episode: 19/2500, score: 61, e: 0.94, reward: -207.83203684061485, runningAvg: -1000
+episode: 20/2500, score: 81, e: 0.94, reward: -122.93693248124174, runningAvg: -1000
+episode: 21/2500, score: 83, e: 0.94, reward: -200.5519785482358, runningAvg: -1000
+episode: 22/2500, score: 62, e: 0.94, reward: -121.96590663252513, runningAvg: -1000
+episode: 23/2500, score: 66, e: 0.94, reward: -150.1660767938742, runningAvg: -1000
+episode: 24/2500, score: 76, e: 0.94, reward: -138.97542294670725, runningAvg: -1000
+episode: 25/2500, score: 76, e: 0.93, reward: -201.39787340931957, runningAvg: -1000
+episode: 26/2500, score: 96, e: 0.93, reward: -171.57687796166493, runningAvg: -1000
+episode: 27/2500, score: 92, e: 0.93, reward: -171.5598137030137, runningAvg: -1000
+episode: 28/2500, score: 120, e: 0.93, reward: -121.1737397603205, runningAvg: -1000
+episode: 29/2500, score: 81, e: 0.93, reward: -203.29280823431645, runningAvg: -1000
+episode: 30/2500, score: 144, e: 0.93, reward: -284.4668929833806, runningAvg: -1000
+episode: 31/2500, score: 84, e: 0.93, reward: -163.99986204229143, runningAvg: -1000
+episode: 32/2500, score: 84, e: 0.93, reward: -289.1834021584192, runningAvg: -1000
+episode: 33/2500, score: 114, e: 0.93, reward: -192.1184873657333, runningAvg: -1000
+episode: 34/2500, score: 82, e: 0.93, reward: -127.59020898930939, runningAvg: -1000
+episode: 35/2500, score: 113, e: 0.93, reward: -157.50568338002006, runningAvg: -1000
+episode: 36/2500, score: 118, e: 0.93, reward: -195.4150803603527, runningAvg: -1000
+episode: 37/2500, score: 98, e: 0.93, reward: -175.4465271551535, runningAvg: -1000
+episode: 38/2500, score: 73, e: 0.93, reward: -143.09795397485686, runningAvg: -1000
+episode: 39/2500, score: 155, e: 0.93, reward: -312.2049315791504, runningAvg: -1000
+episode: 40/2500, score: 122, e: 0.93, reward: -500.43703112478397, runningAvg: -1000
+episode: 41/2500, score: 101, e: 0.93, reward: -178.42089000864075, runningAvg: -1000
+episode: 42/2500, score: 118, e: 0.92, reward: -308.09169856544406, runningAvg: -1000
+episode: 43/2500, score: 120, e: 0.92, reward: -149.66019580499736, runningAvg: -1000
+episode: 44/2500, score: 91, e: 0.92, reward: -237.01520238145883, runningAvg: -1000
+episode: 45/2500, score: 121, e: 0.92, reward: -129.17415865166444, runningAvg: -1000
+episode: 46/2500, score: 98, e: 0.92, reward: -197.50227558940148, runningAvg: -1000
+episode: 47/2500, score: 132, e: 0.92, reward: -483.7874154355037, runningAvg: -1000
+episode: 48/2500, score: 76, e: 0.92, reward: -236.26567907410382, runningAvg: -1000
+episode: 49/2500, score: 133, e: 0.92, reward: -308.27286744541664, runningAvg: -1000
+episode: 50/2500, score: 149, e: 0.92, reward: -172.13165570457616, runningAvg: -1000
+episode: 51/2500, score: 66, e: 0.92, reward: -150.9932309376349, runningAvg: -1000
+episode: 52/2500, score: 81, e: 0.92, reward: -148.37559395701257, runningAvg: -1000
+episode: 53/2500, score: 124, e: 0.92, reward: -326.4107574047641, runningAvg: -1000
+episode: 54/2500, score: 96, e: 0.92, reward: -112.64456340371721, runningAvg: -1000
+episode: 55/2500, score: 128, e: 0.92, reward: -173.71574188354015, runningAvg: -1000
+episode: 56/2500, score: 74, e: 0.92, reward: -38.226783346341875, runningAvg: -1000
+episode: 57/2500, score: 106, e: 0.92, reward: -337.62695563231773, runningAvg: -1000
+episode: 58/2500, score: 101, e: 0.92, reward: -248.49069303696675, runningAvg: -1000
+episode: 59/2500, score: 161, e: 0.91, reward: -130.11138390036527, runningAvg: -1000
+episode: 60/2500, score: 96, e: 0.91, reward: -436.084034242003, runningAvg: -1000
+episode: 61/2500, score: 75, e: 0.91, reward: -134.34179284953788, runningAvg: -1000
+episode: 62/2500, score: 71, e: 0.91, reward: -161.63381301580722, runningAvg: -1000
+episode: 63/2500, score: 90, e: 0.91, reward: -134.00799569304468, runningAvg: -1000
+episode: 64/2500, score: 90, e: 0.91, reward: -179.99421794649328, runningAvg: -1000
+episode: 65/2500, score: 104, e: 0.91, reward: -161.63682076801848, runningAvg: -1000
+episode: 66/2500, score: 87, e: 0.91, reward: -171.6419846765676, runningAvg: -1000
+episode: 67/2500, score: 93, e: 0.91, reward: -127.44245710316451, runningAvg: -1000
+episode: 68/2500, score: 110, e: 0.91, reward: -179.22509980652592, runningAvg: -1000
+episode: 69/2500, score: 63, e: 0.91, reward: -157.55457579934756, runningAvg: -1000
+episode: 70/2500, score: 109, e: 0.91, reward: -324.4589175777444, runningAvg: -1000
+episode: 71/2500, score: 126, e: 0.91, reward: -378.3126803742252, runningAvg: -1000
+episode: 72/2500, score: 132, e: 0.91, reward: -270.6208758133782, runningAvg: -1000
+episode: 73/2500, score: 115, e: 0.91, reward: -256.1920579627782, runningAvg: -1000
+episode: 74/2500, score: 115, e: 0.91, reward: -401.6999133779471, runningAvg: -1000
+episode: 75/2500, score: 128, e: 0.9, reward: -84.01549876757498, runningAvg: -1000
+episode: 76/2500, score: 87, e: 0.9, reward: -157.6905253481504, runningAvg: -1000
+episode: 77/2500, score: 113, e: 0.9, reward: -262.69245248604483, runningAvg: -1000
+episode: 78/2500, score: 96, e: 0.9, reward: -161.16929496823153, runningAvg: -1000
+episode: 79/2500, score: 121, e: 0.9, reward: -160.32539211201595, runningAvg: -1000
+episode: 80/2500, score: 163, e: 0.9, reward: -197.21580653193303, runningAvg: -1000
+episode: 81/2500, score: 83, e: 0.9, reward: -192.96997364205464, runningAvg: -1000
+episode: 82/2500, score: 95, e: 0.9, reward: -136.8830749163273, runningAvg: -1000
+episode: 83/2500, score: 88, e: 0.9, reward: -222.0934397861494, runningAvg: -1000
+episode: 84/2500, score: 76, e: 0.9, reward: -290.87328710186415, runningAvg: -1000
+episode: 85/2500, score: 87, e: 0.9, reward: -159.9844109934367, runningAvg: -1000
+episode: 86/2500, score: 86, e: 0.9, reward: -135.30985843185582, runningAvg: -1000
+episode: 87/2500, score: 98, e: 0.9, reward: -276.96180031543264, runningAvg: -1000
+episode: 88/2500, score: 89, e: 0.9, reward: -164.1449879087799, runningAvg: -1000
+episode: 89/2500, score: 119, e: 0.9, reward: -311.34619633927406, runningAvg: -1000
+episode: 90/2500, score: 112, e: 0.9, reward: -161.4298351003381, runningAvg: -1000
+episode: 91/2500, score: 69, e: 0.9, reward: -106.01835457831194, runningAvg: -1000
+episode: 92/2500, score: 69, e: 0.89, reward: -132.92400940349177, runningAvg: -1000
+episode: 93/2500, score: 82, e: 0.89, reward: -126.4128154317774, runningAvg: -1000
+episode: 94/2500, score: 85, e: 0.89, reward: -104.91150360711117, runningAvg: -1000
+episode: 95/2500, score: 125, e: 0.89, reward: -310.2171045564153, runningAvg: -1000
+episode: 96/2500, score: 96, e: 0.89, reward: -173.76751388957757, runningAvg: -1000
+episode: 97/2500, score: 114, e: 0.89, reward: -194.21962975663322, runningAvg: -1000
+episode: 98/2500, score: 115, e: 0.89, reward: -164.87857634270551, runningAvg: -1000
+episode: 99/2500, score: 90, e: 0.89, reward: -182.60202658337775, runningAvg: -1000
+episode: 100/2500, score: 156, e: 0.89, reward: -363.07629342331353, runningAvg: -1000
+episode: 101/2500, score: 88, e: 0.89, reward: -176.58581195668273, runningAvg: -1000
+episode: 102/2500, score: 96, e: 0.89, reward: -151.3682878857431, runningAvg: -1000
+episode: 103/2500, score: 111, e: 0.89, reward: -127.7260396029658, runningAvg: -1000
+episode: 104/2500, score: 121, e: 0.89, reward: -43.3811675568886, runningAvg: -1000
+episode: 105/2500, score: 96, e: 0.89, reward: -185.9785097983072, runningAvg: -1000
+episode: 106/2500, score: 94, e: 0.89, reward: -136.5841391155863, runningAvg: -1000
+episode: 107/2500, score: 90, e: 0.89, reward: -161.2830072034617, runningAvg: -1000
+episode: 108/2500, score: 86, e: 0.89, reward: -183.84507796257088, runningAvg: -1000
+episode: 109/2500, score: 86, e: 0.88, reward: -244.16624083584216, runningAvg: -1000
+episode: 110/2500, score: 186, e: 0.88, reward: -327.6674380137443, runningAvg: -1000
+episode: 111/2500, score: 120, e: 0.88, reward: -165.10004562027774, runningAvg: -1000
+episode: 112/2500, score: 81, e: 0.88, reward: -212.67912994375064, runningAvg: -1000
+episode: 113/2500, score: 116, e: 0.88, reward: -171.23714021214244, runningAvg: -1000
+episode: 114/2500, score: 130, e: 0.88, reward: -154.21036172568355, runningAvg: -1000
+episode: 115/2500, score: 86, e: 0.88, reward: -130.11065306534337, runningAvg: -1000
+episode: 116/2500, score: 105, e: 0.88, reward: -175.6321129843966, runningAvg: -1000
+episode: 117/2500, score: 108, e: 0.88, reward: -178.501217826627, runningAvg: -1000
+episode: 118/2500, score: 93, e: 0.88, reward: -97.12595009034928, runningAvg: -1000
+episode: 119/2500, score: 105, e: 0.88, reward: -137.93481640802204, runningAvg: -1000
+episode: 120/2500, score: 95, e: 0.88, reward: -168.6998958613972, runningAvg: -1000
+episode: 121/2500, score: 150, e: 0.88, reward: -116.65482759692593, runningAvg: -1000
+episode: 122/2500, score: 106, e: 0.88, reward: -504.99968734863285, runningAvg: -1000
+episode: 123/2500, score: 110, e: 0.88, reward: -194.8878444579602, runningAvg: -1000
+episode: 124/2500, score: 65, e: 0.88, reward: -145.24536478769502, runningAvg: -1000
+episode: 125/2500, score: 113, e: 0.87, reward: -142.41640420903929, runningAvg: -1000
+episode: 126/2500, score: 99, e: 0.87, reward: -145.54464084439596, runningAvg: -1000
+episode: 127/2500, score: 109, e: 0.87, reward: -137.09677955544618, runningAvg: -1000
+episode: 128/2500, score: 108, e: 0.87, reward: -169.18635097940307, runningAvg: -1000
+episode: 129/2500, score: 117, e: 0.87, reward: -28.014140396613627, runningAvg: -1000
+episode: 130/2500, score: 106, e: 0.87, reward: -181.52613813193307, runningAvg: -1000
+episode: 131/2500, score: 79, e: 0.87, reward: -140.50996478240666, runningAvg: -1000
+episode: 132/2500, score: 95, e: 0.87, reward: -357.5867257527824, runningAvg: -1000
+episode: 133/2500, score: 132, e: 0.87, reward: -119.80353337119539, runningAvg: -1000
+episode: 134/2500, score: 94, e: 0.87, reward: -143.23850511801515, runningAvg: -1000
+episode: 135/2500, score: 82, e: 0.87, reward: -127.76178807957771, runningAvg: -1000
+episode: 136/2500, score: 116, e: 0.87, reward: -308.2411848475703, runningAvg: -1000
+episode: 137/2500, score: 108, e: 0.87, reward: -111.08178415911784, runningAvg: -1000
+episode: 138/2500, score: 84, e: 0.87, reward: -230.75604198310154, runningAvg: -1000
+episode: 139/2500, score: 102, e: 0.87, reward: -341.4206610073762, runningAvg: -1000
+episode: 140/2500, score: 82, e: 0.87, reward: -155.2524299845009, runningAvg: -1000
+episode: 141/2500, score: 183, e: 0.87, reward: -531.03236280036, runningAvg: -1000
+episode: 142/2500, score: 116, e: 0.86, reward: -200.47482983733045, runningAvg: -1000
+episode: 143/2500, score: 83, e: 0.86, reward: -140.39779281429867, runningAvg: -1000
+episode: 144/2500, score: 127, e: 0.86, reward: -188.03893174152324, runningAvg: -1000
+episode: 145/2500, score: 121, e: 0.86, reward: -323.52518093463493, runningAvg: -1000
+episode: 146/2500, score: 119, e: 0.86, reward: -308.68209440999016, runningAvg: -1000
+episode: 147/2500, score: 115, e: 0.86, reward: -236.36217757564356, runningAvg: -1000
+episode: 148/2500, score: 118, e: 0.86, reward: -190.1746249317389, runningAvg: -1000
+episode: 149/2500, score: 143, e: 0.86, reward: -188.04324412594065, runningAvg: -1000
+episode: 150/2500, score: 97, e: 0.86, reward: -21.471071720342366, runningAvg: -1000
+episode: 151/2500, score: 74, e: 0.86, reward: -145.5099397585779, runningAvg: -208.0718387748355
+episode: 152/2500, score: 73, e: 0.86, reward: -113.56643638235133, runningAvg: -205.18248414024214
+episode: 153/2500, score: 83, e: 0.86, reward: -273.42108482817457, runningAvg: -204.44135924498508
+episode: 154/2500, score: 159, e: 0.86, reward: -186.26092384090174, runningAvg: -203.289720240231
+episode: 155/2500, score: 121, e: 0.86, reward: -329.46853107480973, runningAvg: -202.92828208430174
+episode: 156/2500, score: 205, e: 0.86, reward: -258.9741682219808, runningAvg: -204.48465378049582
+episode: 157/2500, score: 115, e: 0.86, reward: -108.1969548367608, runningAvg: -203.88687307790215
+episode: 158/2500, score: 88, e: 0.86, reward: -141.76586396996288, runningAvg: -202.2881751500826
+episode: 159/2500, score: 134, e: 0.85, reward: -333.85668830727064, runningAvg: -202.36448629832972
+episode: 160/2500, score: 123, e: 0.85, reward: -338.5450355468359, runningAvg: -203.78763478120453
+episode: 161/2500, score: 64, e: 0.85, reward: -182.31669337449011, runningAvg: -203.54873832679723
+episode: 162/2500, score: 87, e: 0.85, reward: -130.33670288370655, runningAvg: -203.0277466066439
+episode: 163/2500, score: 107, e: 0.85, reward: -199.8630045313585, runningAvg: -201.67513348383042
+episode: 164/2500, score: 135, e: 0.85, reward: -203.25908299164593, runningAvg: -199.9698245271023
+episode: 165/2500, score: 98, e: 0.85, reward: -145.39603563986591, runningAvg: -199.29290488188508
+episode: 166/2500, score: 130, e: 0.85, reward: -222.22554272699216, runningAvg: -199.19933719564935
+episode: 167/2500, score: 90, e: 0.85, reward: -169.38059909296214, runningAvg: -199.3870810683847
+episode: 168/2500, score: 64, e: 0.85, reward: -293.05189571106735, runningAvg: -200.42289003728604
+episode: 169/2500, score: 92, e: 0.85, reward: -450.519031555988, runningAvg: -202.04080333538855
+episode: 170/2500, score: 68, e: 0.85, reward: -132.96590411069525, runningAvg: -202.10766314625158
+episode: 171/2500, score: 124, e: 0.85, reward: -188.32615510935838, runningAvg: -202.02615765665905
+episode: 172/2500, score: 113, e: 0.85, reward: -315.5176328246443, runningAvg: -203.31650249793984
+episode: 173/2500, score: 145, e: 0.85, reward: -178.14140342844863, runningAvg: -203.5030046755037
+episode: 174/2500, score: 106, e: 0.85, reward: -175.57983146722063, runningAvg: -203.74703406564046
+episode: 175/2500, score: 73, e: 0.84, reward: -128.379550665167, runningAvg: -203.2602452473461
+episode: 176/2500, score: 114, e: 0.84, reward: -64.49667834124836, runningAvg: -202.54637724987668
+episode: 177/2500, score: 71, e: 0.84, reward: -271.4340745464961, runningAvg: -203.21220565549987
+episode: 178/2500, score: 142, e: 0.84, reward: -220.8406113951366, runningAvg: -203.87665146639864
+episode: 179/2500, score: 109, e: 0.84, reward: -139.893141913666, runningAvg: -203.45398702426093
+episode: 180/2500, score: 81, e: 0.84, reward: -415.2349436869452, runningAvg: -204.32577402895137
+episode: 181/2500, score: 118, e: 0.84, reward: -142.72213006305577, runningAvg: -204.18392248242313
+episode: 182/2500, score: 96, e: 0.84, reward: -165.3012175489905, runningAvg: -203.35804125169363
+episode: 183/2500, score: 124, e: 0.84, reward: -233.5341317296752, runningAvg: -203.63414554745322
+episode: 184/2500, score: 153, e: 0.84, reward: -138.85424792834334, runningAvg: -203.70923914038013
+episode: 185/2500, score: 127, e: 0.84, reward: -298.03368936209364, runningAvg: -204.6460925135939
+episode: 186/2500, score: 131, e: 0.84, reward: -446.7151164563373, runningAvg: -206.32142608756715
+episode: 187/2500, score: 92, e: 0.84, reward: -9.988981548209381, runningAvg: -205.21837578352086
+episode: 188/2500, score: 80, e: 0.84, reward: -252.58171487106242, runningAvg: -205.94826752282893
+episode: 189/2500, score: 100, e: 0.84, reward: -96.4829427153401, runningAvg: -204.51012093040347
+episode: 190/2500, score: 86, e: 0.84, reward: -191.9597174721558, runningAvg: -202.45360550605264
+episode: 191/2500, score: 72, e: 0.84, reward: -219.9139054337417, runningAvg: -202.73022560888666
+episode: 192/2500, score: 147, e: 0.83, reward: -191.07359345796803, runningAvg: -201.95010490817012
+episode: 193/2500, score: 104, e: 0.83, reward: -165.36613814523517, runningAvg: -202.05481119043841
+episode: 194/2500, score: 113, e: 0.83, reward: -197.90476805662195, runningAvg: -201.79407496160616
+episode: 195/2500, score: 141, e: 0.83, reward: -166.62338076746585, runningAvg: -202.04373644237816
+episode: 196/2500, score: 72, e: 0.83, reward: -196.8734537411899, runningAvg: -202.03954429672348
+episode: 197/2500, score: 105, e: 0.83, reward: -122.39714960590288, runningAvg: -199.63027585785943
+episode: 198/2500, score: 137, e: 0.83, reward: -209.74412868939058, runningAvg: -199.45346552196136
+episode: 199/2500, score: 79, e: 0.83, reward: -165.93800005089827, runningAvg: -198.50456640599788
+episode: 200/2500, score: 66, e: 0.83, reward: -135.20492321339225, runningAvg: -198.25838818939
+episode: 201/2500, score: 159, e: 0.83, reward: -85.5110393540014, runningAvg: -197.8218402454991
+episode: 202/2500, score: 114, e: 0.83, reward: -178.28291309226972, runningAvg: -198.02122237306747
+episode: 203/2500, score: 98, e: 0.83, reward: -135.23281832242537, runningAvg: -196.7467027791852
+episode: 204/2500, score: 88, e: 0.83, reward: -169.33952291743122, runningAvg: -197.1246691759433
+episode: 205/2500, score: 86, e: 0.83, reward: -127.79838410849818, runningAvg: -196.81855345744296
+episode: 206/2500, score: 160, e: 0.83, reward: -118.42632576603624, runningAvg: -197.35321707357426
+episode: 207/2500, score: 83, e: 0.83, reward: -127.84981597750208, runningAvg: -195.9547028092088
+episode: 208/2500, score: 89, e: 0.83, reward: -411.7951561841935, runningAvg: -197.04339923019035
+episode: 209/2500, score: 124, e: 0.82, reward: -233.51594357477444, runningAvg: -197.73276296135307
+episode: 210/2500, score: 81, e: 0.82, reward: -84.3161909604309, runningAvg: -195.38764400614258
+episode: 211/2500, score: 69, e: 0.82, reward: -123.77040422254801, runningAvg: -195.31716808196268
+episode: 212/2500, score: 84, e: 0.82, reward: -105.72750354637846, runningAvg: -194.94445935216652
+episode: 213/2500, score: 145, e: 0.82, reward: -240.85744036550992, runningAvg: -195.65678898331626
+episode: 214/2500, score: 76, e: 0.82, reward: -58.83682227971555, runningAvg: -194.8490730122044
+episode: 215/2500, score: 100, e: 0.82, reward: -248.5546605777546, runningAvg: -195.4285252776027
+episode: 216/2500, score: 93, e: 0.82, reward: -294.93136692648096, runningAvg: -196.2504544926021
+episode: 217/2500, score: 134, e: 0.82, reward: -193.8298431302469, runningAvg: -196.69303706611598
+episode: 218/2500, score: 113, e: 0.82, reward: -380.6361511510022, runningAvg: -198.03577740841249
+episode: 219/2500, score: 94, e: 0.82, reward: -282.75549832115496, runningAvg: -198.87045022522454
+episode: 220/2500, score: 83, e: 0.82, reward: -151.007463948843, runningAvg: -197.71410720103188
+episode: 221/2500, score: 125, e: 0.82, reward: -128.80877832379377, runningAvg: -196.05074785402897
+episode: 222/2500, score: 138, e: 0.82, reward: -118.77540816927419, runningAvg: -195.03844473640166
+episode: 223/2500, score: 120, e: 0.82, reward: -216.32039062483284, runningAvg: -194.77263362081538
+episode: 224/2500, score: 115, e: 0.82, reward: -150.1899480041311, runningAvg: -193.09590051832328
+episode: 225/2500, score: 110, e: 0.81, reward: -162.9965226221862, runningAvg: -193.622440677354
+episode: 226/2500, score: 165, e: 0.81, reward: -168.54153860936708, runningAvg: -193.69478076576215
+episode: 227/2500, score: 110, e: 0.81, reward: -132.69034293027832, runningAvg: -192.82810003539035
+episode: 228/2500, score: 84, e: 0.81, reward: -190.26684180205376, runningAvg: -193.02208368094918
+episode: 229/2500, score: 128, e: 0.81, reward: -160.6181486515133, runningAvg: -193.0240353912125
+episode: 230/2500, score: 74, e: 0.81, reward: -190.04124524314648, runningAvg: -192.97620498262054
+episode: 231/2500, score: 71, e: 0.81, reward: -110.7012707423946, runningAvg: -192.42774696328948
+episode: 232/2500, score: 105, e: 0.81, reward: -197.15928715083578, runningAvg: -192.82958837818617
+episode: 233/2500, score: 119, e: 0.81, reward: -165.99043771834323, runningAvg: -192.45556836440082
+episode: 234/2500, score: 107, e: 0.81, reward: -128.37917606939266, runningAvg: -191.372274290851
+episode: 235/2500, score: 169, e: 0.81, reward: -195.3589240161246, runningAvg: -191.60810437766892
+episode: 236/2500, score: 90, e: 0.81, reward: -210.80140698928557, runningAvg: -192.11138136805178
+episode: 237/2500, score: 117, e: 0.81, reward: -204.9297831398507, runningAvg: -191.63116792021452
+episode: 238/2500, score: 111, e: 0.81, reward: -202.9363385808604, runningAvg: -191.88977692469507
+episode: 239/2500, score: 129, e: 0.81, reward: -146.8308086513905, runningAvg: -190.79300767344253
+episode: 240/2500, score: 79, e: 0.81, reward: -141.85407308206393, runningAvg: -190.66250259332065
+episode: 241/2500, score: 79, e: 0.81, reward: -170.9213317576349, runningAvg: -191.0951891078495
+episode: 242/2500, score: 112, e: 0.8, reward: -143.02035060235676, runningAvg: -191.1624980491753
+episode: 243/2500, score: 94, e: 0.8, reward: -163.94221354367556, runningAvg: -191.41269403658794
+episode: 244/2500, score: 93, e: 0.8, reward: -201.618032930243, runningAvg: -192.0574042320755
+episode: 245/2500, score: 95, e: 0.8, reward: -105.99811059249464, runningAvg: -190.695944272316
+episode: 246/2500, score: 91, e: 0.8, reward: -151.14002714563424, runningAvg: -190.54509436068977
+episode: 247/2500, score: 91, e: 0.8, reward: -94.48429363450876, runningAvg: -189.8801921198756
+episode: 248/2500, score: 137, e: 0.8, reward: -123.71215538865422, runningAvg: -189.60574931351525
+episode: 249/2500, score: 148, e: 0.8, reward: -64.6294890108465, runningAvg: -188.81926572969834
+episode: 250/2500, score: 152, e: 0.8, reward: -168.78746650727467, runningAvg: -187.52400688359148
+episode: 251/2500, score: 113, e: 0.8, reward: -110.10785304361177, runningAvg: -187.08082049083768
+episode: 252/2500, score: 75, e: 0.8, reward: -92.87726703843437, runningAvg: -186.6908803518556
+episode: 253/2500, score: 178, e: 0.8, reward: -266.030565206554, runningAvg: -187.6129105225462
+episode: 254/2500, score: 107, e: 0.8, reward: -265.98882691565234, runningAvg: -189.09696158493796
+episode: 255/2500, score: 98, e: 0.8, reward: -179.1719636388297, runningAvg: -189.05158461054143
+episode: 256/2500, score: 80, e: 0.8, reward: -111.54104555737847, runningAvg: -188.8846306534867
+episode: 257/2500, score: 88, e: 0.8, reward: -322.90613360508337, runningAvg: -189.96211816283085
+episode: 258/2500, score: 122, e: 0.8, reward: -175.1988534563813, runningAvg: -189.90447666612295
+episode: 259/2500, score: 100, e: 0.79, reward: -211.04631033311765, runningAvg: -189.68367712943808
+episode: 260/2500, score: 101, e: 0.79, reward: -422.0796013169906, runningAvg: -190.31309155145973
+episode: 261/2500, score: 91, e: 0.79, reward: -115.41756911235784, runningAvg: -189.98187504140694
+episode: 262/2500, score: 157, e: 0.79, reward: -144.18731261684013, runningAvg: -189.52526292589417
+episode: 263/2500, score: 117, e: 0.79, reward: -337.4952972545716, runningAvg: -190.6336506395104
+episode: 264/2500, score: 117, e: 0.79, reward: -240.4230630821686, runningAvg: -191.20840198188694
+episode: 265/2500, score: 75, e: 0.79, reward: -166.02499802753914, runningAvg: -191.44783094830157
+episode: 266/2500, score: 144, e: 0.79, reward: -244.52579778854226, runningAvg: -191.9071221803292
+episode: 267/2500, score: 84, e: 0.79, reward: -71.800033309366, runningAvg: -191.19578095021413
+episode: 268/2500, score: 118, e: 0.79, reward: -189.68480479567478, runningAvg: -191.81283998158298
+episode: 269/2500, score: 90, e: 0.79, reward: -108.04167525388146, runningAvg: -191.6135523738887
+episode: 270/2500, score: 122, e: 0.79, reward: -254.53084612134683, runningAvg: -192.185758708955
+episode: 271/2500, score: 156, e: 0.79, reward: -166.8083931862477, runningAvg: -192.52011581288383
+episode: 272/2500, score: 110, e: 0.79, reward: -144.46746525859297, runningAvg: -190.1165676656169
+episode: 273/2500, score: 157, e: 0.79, reward: -115.32104192251188, runningAvg: -189.58612231538058
+episode: 274/2500, score: 117, e: 0.79, reward: -160.09353351007093, runningAvg: -189.68511010686308
+episode: 275/2500, score: 95, e: 0.78, reward: -252.15611175178157, runningAvg: -190.41670815714804
+episode: 276/2500, score: 126, e: 0.78, reward: -98.6327046255629, runningAvg: -190.10396191568915
+episode: 277/2500, score: 70, e: 0.78, reward: -244.94935100422435, runningAvg: -190.822979058681
+episode: 278/2500, score: 105, e: 0.78, reward: -171.65188565942674, runningAvg: -190.8394159565478
+episode: 279/2500, score: 122, e: 0.78, reward: -302.4154522556056, runningAvg: -192.66875803560777
+episode: 280/2500, score: 105, e: 0.78, reward: -122.52543718994862, runningAvg: -192.27542002932788
+episode: 281/2500, score: 75, e: 0.78, reward: -141.39461218149683, runningAvg: -192.28131767865514
+episode: 282/2500, score: 150, e: 0.78, reward: -125.82307952511309, runningAvg: -190.73622670380402
+episode: 283/2500, score: 116, e: 0.78, reward: -317.27421431689834, runningAvg: -192.0526979101087
+episode: 284/2500, score: 97, e: 0.78, reward: -180.75885089193625, runningAvg: -192.30283354860148
+episode: 285/2500, score: 156, e: 0.78, reward: -157.49543531071834, runningAvg: -192.50105786347572
+episode: 286/2500, score: 72, e: 0.78, reward: -128.61158051139864, runningAvg: -191.3035271679013
+episode: 287/2500, score: 98, e: 0.78, reward: -145.98406259384882, runningAvg: -191.53620902413283
+episode: 288/2500, score: 81, e: 0.78, reward: -329.5105575141226, runningAvg: -192.1945724610063
+episode: 289/2500, score: 122, e: 0.78, reward: -279.2418507391199, runningAvg: -191.78004705921794
+episode: 290/2500, score: 160, e: 0.78, reward: -119.93603619539576, runningAvg: -191.54460443395726
+episode: 291/2500, score: 153, e: 0.78, reward: -157.52559132853415, runningAvg: -189.05455929081174
+episode: 292/2500, score: 121, e: 0.77, reward: -145.13815789628939, runningAvg: -188.68564814453813
+episode: 293/2500, score: 124, e: 0.77, reward: -152.38104132369781, runningAvg: -188.7655364679341
+episode: 294/2500, score: 83, e: 0.77, reward: -319.78849593465213, runningAvg: -189.6438668958883
+episode: 295/2500, score: 86, e: 0.77, reward: -198.18971672484952, runningAvg: -188.80829713448972
+episode: 296/2500, score: 86, e: 0.77, reward: -144.12542809769636, runningAvg: -187.7112526924078
+episode: 297/2500, score: 122, e: 0.77, reward: -134.76208465178814, runningAvg: -187.0339187395821
+episode: 298/2500, score: 96, e: 0.77, reward: -121.0791355381201, runningAvg: -186.5732821436246
+episode: 299/2500, score: 83, e: 0.77, reward: -110.28133528629493, runningAvg: -186.05486941802698
+episode: 300/2500, score: 137, e: 0.77, reward: -304.7898871752442, runningAvg: -187.94366152105968
+episode: 301/2500, score: 104, e: 0.77, reward: -157.53285539211228, runningAvg: -188.0238142919499
+episode: 302/2500, score: 129, e: 0.77, reward: -128.1815812613603, runningAvg: -188.12124859114329
+episode: 303/2500, score: 136, e: 0.77, reward: -177.03490031461027, runningAvg: -187.47867402771953
+episode: 304/2500, score: 124, e: 0.77, reward: -314.2026882628699, runningAvg: -188.33161912386598
+episode: 305/2500, score: 72, e: 0.77, reward: -93.54823135506554, runningAvg: -186.75881712573434
+episode: 306/2500, score: 84, e: 0.77, reward: -102.7151716356362, runningAvg: -185.71709048182535
+episode: 307/2500, score: 106, e: 0.77, reward: -135.40033872702332, runningAvg: -185.89844637442712
+episode: 308/2500, score: 133, e: 0.77, reward: -123.80563711094528, runningAvg: -185.77871152870034
+episode: 309/2500, score: 127, e: 0.76, reward: -172.18798748436637, runningAvg: -184.70092018988097
+episode: 310/2500, score: 84, e: 0.76, reward: -121.34343447654496, runningAvg: -183.25290951607903
+episode: 311/2500, score: 111, e: 0.76, reward: -178.73964232240837, runningAvg: -183.22906250906513
+episode: 312/2500, score: 88, e: 0.76, reward: -119.91842721886104, runningAvg: -183.15960733796618
+episode: 313/2500, score: 65, e: 0.76, reward: -183.07411498508347, runningAvg: -183.04768140765765
+episode: 314/2500, score: 141, e: 0.76, reward: -215.81029196271336, runningAvg: -183.1313561341314
+episode: 315/2500, score: 78, e: 0.76, reward: -199.80422457579425, runningAvg: -183.4940773937043
+episode: 316/2500, score: 103, e: 0.76, reward: -176.51328300224188, runningAvg: -183.18932899553928
+episode: 317/2500, score: 239, e: 0.76, reward: -201.2440377583011, runningAvg: -183.40175191997488
+episode: 318/2500, score: 155, e: 0.76, reward: -133.56967117854614, runningAvg: -182.33853708975806
+episode: 319/2500, score: 89, e: 0.76, reward: -158.77655010003383, runningAvg: -180.39358721338502
+episode: 320/2500, score: 138, e: 0.76, reward: -253.29378599738567, runningAvg: -181.19577309262962
+episode: 321/2500, score: 156, e: 0.76, reward: -135.51708337258208, runningAvg: -180.84371261438446
+episode: 322/2500, score: 113, e: 0.76, reward: -191.8305606481486, runningAvg: -180.01913213320782
+episode: 323/2500, score: 162, e: 0.76, reward: -22.10802056670363, runningAvg: -178.9789095807962
+episode: 324/2500, score: 119, e: 0.76, reward: -90.19502403777635, runningAvg: -178.40967753126657
+episode: 325/2500, score: 82, e: 0.75, reward: -175.93028398884337, runningAvg: -178.72668242009107
+episode: 326/2500, score: 132, e: 0.75, reward: -63.35618575371558, runningAvg: -178.7190791361742
+episode: 327/2500, score: 143, e: 0.75, reward: -113.92986520941284, runningAvg: -177.66905107392697
+episode: 328/2500, score: 86, e: 0.75, reward: -142.11104205715773, runningAvg: -177.1441872783404
+episode: 329/2500, score: 113, e: 0.75, reward: -391.256896000039, runningAvg: -178.81994563891627
+episode: 330/2500, score: 152, e: 0.75, reward: -38.73960459505301, runningAvg: -176.30997671163698
+episode: 331/2500, score: 122, e: 0.75, reward: -212.55496064093694, runningAvg: -176.7755289154895
+episode: 332/2500, score: 111, e: 0.75, reward: -190.2101327347844, runningAvg: -176.94158835006147
+episode: 333/2500, score: 83, e: 0.75, reward: -129.80222654441755, runningAvg: -176.25004231549312
+episode: 334/2500, score: 178, e: 0.75, reward: -136.42011908698356, runningAvg: -176.23381478988406
+episode: 335/2500, score: 103, e: 0.75, reward: -163.07821481187563, runningAvg: -175.3341116262159
+episode: 336/2500, score: 138, e: 0.75, reward: -134.03860670148043, runningAvg: -173.24960156118354
+episode: 337/2500, score: 145, e: 0.75, reward: -134.5509474822715, runningAvg: -174.08001466741064
+episode: 338/2500, score: 114, e: 0.75, reward: -169.15686563593917, runningAvg: -173.5238490058431
+episode: 339/2500, score: 148, e: 0.75, reward: -133.99383402144312, runningAvg: -173.77392161455046
+episode: 340/2500, score: 105, e: 0.75, reward: -118.2587020076511, runningAvg: -173.28258151145374
+episode: 341/2500, score: 126, e: 0.75, reward: -151.538506422421, runningAvg: -172.82674551804493
+episode: 342/2500, score: 110, e: 0.74, reward: -199.07911834006433, runningAvg: -172.8801156839256
+episode: 343/2500, score: 130, e: 0.74, reward: -133.970102818339, runningAvg: -172.67080878174627
+episode: 344/2500, score: 84, e: 0.74, reward: -115.2230872500094, runningAvg: -172.11959757636888
+episode: 345/2500, score: 113, e: 0.74, reward: -138.56249475399432, runningAvg: -171.93252500294568
+episode: 346/2500, score: 96, e: 0.74, reward: -121.2287706953087, runningAvg: -171.4282271159732
+episode: 347/2500, score: 62, e: 0.74, reward: -154.10370690273191, runningAvg: -171.63960416461873
+episode: 348/2500, score: 81, e: 0.74, reward: -104.44599359985794, runningAvg: -170.93761659735517
+episode: 349/2500, score: 92, e: 0.74, reward: -118.14833272410615, runningAvg: -170.6190188151766
+episode: 350/2500, score: 164, e: 0.74, reward: -123.62451995293567, runningAvg: -170.54181612677354
+episode: 351/2500, score: 71, e: 0.74, reward: -159.52707429966176, runningAvg: -171.0352563597446
+episode: 352/2500, score: 68, e: 0.74, reward: -105.6976084119763, runningAvg: -170.55135432854271
+episode: 353/2500, score: 90, e: 0.74, reward: -134.5529519678371, runningAvg: -170.54682188617875
+episode: 354/2500, score: 80, e: 0.74, reward: -137.6920616177287, runningAvg: -170.33583881084743
+episode: 355/2500, score: 96, e: 0.74, reward: -141.5433957671131, runningAvg: -170.4274722219048
+episode: 356/2500, score: 110, e: 0.74, reward: -154.5953842476584, runningAvg: -170.66859927844897
+episode: 357/2500, score: 97, e: 0.74, reward: -167.08021496465255, runningAvg: -170.9301352716966
+episode: 358/2500, score: 144, e: 0.74, reward: -149.94108790047358, runningAvg: -169.1844414831385
+episode: 359/2500, score: 132, e: 0.73, reward: -137.631967066347, runningAvg: -168.54521497308235
+episode: 360/2500, score: 86, e: 0.73, reward: -139.2956432563992, runningAvg: -168.91174465505546
+episode: 361/2500, score: 98, e: 0.73, reward: -171.63244717082563, runningAvg: -169.23082494137728
+episode: 362/2500, score: 141, e: 0.73, reward: -90.9250341578685, runningAvg: -169.13214181212052
+episode: 363/2500, score: 84, e: 0.73, reward: -105.70235846441408, runningAvg: -168.23110793277993
+episode: 364/2500, score: 84, e: 0.73, reward: -119.99558196521343, runningAvg: -168.6388329973499
+episode: 365/2500, score: 83, e: 0.73, reward: -191.01221277295457, runningAvg: -168.25521667865124
+episode: 366/2500, score: 71, e: 0.73, reward: -158.72826505676733, runningAvg: -167.34719599951987
+episode: 367/2500, score: 97, e: 0.73, reward: -106.8526748132259, runningAvg: -166.76734821073973
+episode: 368/2500, score: 84, e: 0.73, reward: -129.66781146106675, runningAvg: -165.09422594614014
+episode: 369/2500, score: 101, e: 0.73, reward: -124.69097670901493, runningAvg: -164.04046246872588
+episode: 370/2500, score: 146, e: 0.73, reward: -90.20817072956503, runningAvg: -163.63513384726403
+episode: 371/2500, score: 154, e: 0.73, reward: -112.445759752316, runningAvg: -163.5260470567875
+episode: 372/2500, score: 107, e: 0.73, reward: -146.35145394314443, runningAvg: -163.7098873619466
+episode: 373/2500, score: 127, e: 0.73, reward: -242.15122215549079, runningAvg: -163.88209290548437
+episode: 374/2500, score: 112, e: 0.73, reward: -170.56557176367653, runningAvg: -164.01793039721466
+episode: 375/2500, score: 128, e: 0.72, reward: -166.72625893723756, runningAvg: -164.04279530598168
+episode: 376/2500, score: 116, e: 0.72, reward: -280.12490680016606, runningAvg: -164.78668442725368
+episode: 377/2500, score: 122, e: 0.72, reward: -82.67435774362731, runningAvg: -164.4532445260093
+episode: 378/2500, score: 146, e: 0.72, reward: -84.62557578890994, runningAvg: -163.74896941925502
+episode: 379/2500, score: 129, e: 0.72, reward: -88.90813833276812, runningAvg: -163.27090268379678
+episode: 380/2500, score: 118, e: 0.72, reward: -162.8889133611397, runningAvg: -163.08988713791672
+episode: 381/2500, score: 107, e: 0.72, reward: -127.10081511753177, runningAvg: -163.1992174337509
+episode: 382/2500, score: 115, e: 0.72, reward: -164.09564936815025, runningAvg: -162.97879318186637
+episode: 383/2500, score: 117, e: 0.72, reward: -135.96915343775677, runningAvg: -162.77865128666247
+episode: 384/2500, score: 137, e: 0.72, reward: -145.74986596543857, runningAvg: -162.89445588596945
+episode: 385/2500, score: 93, e: 0.72, reward: -160.77191246974044, runningAvg: -162.66387580899354
+episode: 386/2500, score: 128, e: 0.72, reward: -131.8047236964129, runningAvg: -162.13723125370774
+episode: 387/2500, score: 91, e: 0.72, reward: -120.2022439575083, runningAvg: -161.57238099249207
+episode: 388/2500, score: 125, e: 0.72, reward: -167.9976924170641, runningAvg: -161.33945668473348
+episode: 389/2500, score: 121, e: 0.72, reward: -196.0271242105838, runningAvg: -161.66743212179475
+episode: 390/2500, score: 113, e: 0.72, reward: -180.86962896045276, runningAvg: -161.9275358276507
+episode: 391/2500, score: 120, e: 0.72, reward: -166.1316878762883, runningAvg: -161.89560486844175
+episode: 392/2500, score: 132, e: 0.71, reward: -74.76845508245435, runningAvg: -161.4405922316424
+episode: 393/2500, score: 168, e: 0.71, reward: -152.49408910348228, runningAvg: -161.3642714020411
+episode: 394/2500, score: 247, e: 0.71, reward: -198.808800216235, runningAvg: -161.34554318394777
+episode: 395/2500, score: 135, e: 0.71, reward: -164.69395358474003, runningAvg: -161.73684880389607
+episode: 396/2500, score: 128, e: 0.71, reward: -92.63783720089063, runningAvg: -161.34683420426447
+episode: 397/2500, score: 125, e: 0.71, reward: -218.72343457151067, runningAvg: -162.1750951438445
+episode: 398/2500, score: 74, e: 0.71, reward: -140.8874766184512, runningAvg: -162.28959728537643
+episode: 399/2500, score: 108, e: 0.71, reward: -119.04666131586683, runningAvg: -162.6523784340766
+episode: 400/2500, score: 151, e: 0.71, reward: 20.758745151150165, runningAvg: -161.38873702302047
+episode: 401/2500, score: 108, e: 0.71, reward: -96.51122458892895, runningAvg: -161.29809283332256
+episode: 402/2500, score: 104, e: 0.7, reward: -94.91495478392716, runningAvg: -161.3116774182925
+episode: 403/2500, score: 114, e: 0.7, reward: -212.75950044075833, runningAvg: -160.95653698652052
+episode: 404/2500, score: 145, e: 0.7, reward: -141.1145034259715, runningAvg: -160.1240414965893
+episode: 405/2500, score: 102, e: 0.7, reward: -61.25439866092067, runningAvg: -159.33792439673658
+episode: 406/2500, score: 107, e: 0.69, reward: -227.10331648810057, runningAvg: -160.1083395362747
+episode: 407/2500, score: 152, e: 0.69, reward: -110.27874531230655, runningAvg: -158.69082361432285
+episode: 408/2500, score: 99, e: 0.69, reward: -82.21184588888698, runningAvg: -158.07091023053957
+episode: 409/2500, score: 165, e: 0.68, reward: -100.40886912224943, runningAvg: -157.33332728913382
+episode: 410/2500, score: 89, e: 0.68, reward: -148.11536377211974, runningAvg: -155.50689903883466
+episode: 411/2500, score: 202, e: 0.68, reward: -257.7844313479858, runningAvg: -156.45601145373882
+episode: 412/2500, score: 176, e: 0.68, reward: -299.96250182122105, runningAvg: -157.49451271510134
+episode: 413/2500, score: 126, e: 0.67, reward: -114.48201386990141, runningAvg: -156.00775749253683
+episode: 414/2500, score: 111, e: 0.67, reward: -235.28669842276574, runningAvg: -155.97351506147416
+episode: 415/2500, score: 113, e: 0.67, reward: -150.5814820761968, runningAvg: -155.8705582884652
+episode: 416/2500, score: 177, e: 0.67, reward: -205.36171789680182, runningAvg: -155.60946442252026
+episode: 417/2500, score: 67, e: 0.66, reward: -148.98598058609636, runningAvg: -156.12403740436514
+episode: 418/2500, score: 129, e: 0.66, reward: -98.98541015459388, runningAvg: -155.5193747734246
+episode: 419/2500, score: 151, e: 0.66, reward: -127.68235940799893, runningAvg: -155.65031266778539
+episode: 420/2500, score: 189, e: 0.66, reward: -118.05299925785376, runningAvg: -154.74046035536207
+episode: 421/2500, score: 114, e: 0.65, reward: -344.8452872978203, runningAvg: -155.92737298277257
+episode: 422/2500, score: 94, e: 0.65, reward: -198.28743743683665, runningAvg: -156.28617279729417
+episode: 423/2500, score: 76, e: 0.65, reward: -148.43457305212985, runningAvg: -156.50692967149163
+episode: 424/2500, score: 129, e: 0.64, reward: -134.75686254416019, runningAvg: -156.3380185317189
+episode: 425/2500, score: 140, e: 0.64, reward: -222.91133414484662, runningAvg: -156.14305334767266
+episode: 426/2500, score: 183, e: 0.64, reward: -266.15794993409867, runningAvg: -157.25988831639626
+episode: 427/2500, score: 168, e: 0.64, reward: -212.8420486617939, runningAvg: -157.04583963411338
+episode: 428/2500, score: 148, e: 0.63, reward: -303.1457940588635, runningAvg: -157.9224656901096
+episode: 429/2500, score: 112, e: 0.63, reward: -146.9642344250863, runningAvg: -156.88612423790616
+episode: 430/2500, score: 87, e: 0.63, reward: -116.46827450747902, runningAvg: -156.84574315335635
+episode: 431/2500, score: 166, e: 0.63, reward: -77.7978101795388, runningAvg: -156.42176447334327
+episode: 432/2500, score: 202, e: 0.62, reward: -156.0724932552786, runningAvg: -156.6234272315444
+episode: 433/2500, score: 120, e: 0.62, reward: -132.8696211605166, runningAvg: -155.39406327716853
+episode: 434/2500, score: 103, e: 0.62, reward: -173.6706189937218, runningAvg: -155.3468083978471
+episode: 435/2500, score: 147, e: 0.62, reward: -98.58336375952544, runningAvg: -154.95406125417247
+episode: 436/2500, score: 89, e: 0.61, reward: -101.12487888650834, runningAvg: -154.77081657667318
+episode: 437/2500, score: 141, e: 0.61, reward: -89.04039022534404, runningAvg: -154.39119209421648
+episode: 438/2500, score: 165, e: 0.61, reward: -95.69998197115652, runningAvg: -152.83245492393002
+episode: 439/2500, score: 197, e: 0.61, reward: -65.6701006254412, runningAvg: -151.40864325650548
+episode: 440/2500, score: 99, e: 0.6, reward: -149.99134222304923, runningAvg: -151.6090119633565
+episode: 441/2500, score: 186, e: 0.6, reward: -155.04742414009792, runningAvg: -151.59249084876691
+episode: 442/2500, score: 209, e: 0.6, reward: -212.23160387780572, runningAvg: -152.0397804886437
+episode: 443/2500, score: 162, e: 0.6, reward: -134.48835508698727, runningAvg: -151.9204959137323
+episode: 444/2500, score: 157, e: 0.6, reward: -150.72243449673022, runningAvg: -150.79338883747945
+episode: 445/2500, score: 185, e: 0.59, reward: -31.370758059822478, runningAvg: -149.68126244637932
+episode: 446/2500, score: 205, e: 0.59, reward: -112.26762865981635, runningAvg: -149.46887711679344
+episode: 447/2500, score: 191, e: 0.59, reward: -9.057676473703026, runningAvg: -148.63084772893956
+episode: 448/2500, score: 214, e: 0.59, reward: -104.95484273372054, runningAvg: -148.5233524435769
+episode: 449/2500, score: 143, e: 0.58, reward: -95.33469239735588, runningAvg: -148.42370815765062
+episode: 450/2500, score: 194, e: 0.58, reward: -85.26795417032483, runningAvg: -146.9602286042845
+episode: 451/2500, score: 150, e: 0.58, reward: -55.4306092916148, runningAvg: -146.2795469636145
+episode: 452/2500, score: 109, e: 0.58, reward: -163.18766129188532, runningAvg: -146.5129208304847
+episode: 453/2500, score: 212, e: 0.57, reward: -248.9052879566748, runningAvg: -146.99205674809846
+episode: 454/2500, score: 154, e: 0.57, reward: -89.52819141139898, runningAvg: -145.49422676908867
+episode: 455/2500, score: 108, e: 0.57, reward: -122.0222946232062, runningAvg: -145.68405385754292
+episode: 456/2500, score: 211, e: 0.57, reward: -136.4672132577798, runningAvg: -145.9090674683572
+episode: 457/2500, score: 165, e: 0.56, reward: -42.24353589587648, runningAvg: -145.28802211614956
+episode: 458/2500, score: 154, e: 0.56, reward: -72.46572372907406, runningAvg: -144.9457560269371
+episode: 459/2500, score: 110, e: 0.56, reward: -137.78370791038324, runningAvg: -144.71639416311055
+episode: 460/2500, score: 121, e: 0.56, reward: -96.94047542620574, runningAvg: -144.55370776944164
+episode: 461/2500, score: 140, e: 0.56, reward: -156.35643470801887, runningAvg: -144.4044863853457
+episode: 462/2500, score: 163, e: 0.55, reward: -93.4616295719841, runningAvg: -144.22810773436652
+episode: 463/2500, score: 93, e: 0.55, reward: -56.9277219575522, runningAvg: -143.38713178084964
+episode: 464/2500, score: 186, e: 0.55, reward: -135.96541454843938, runningAvg: -142.8548325980878
+episode: 465/2500, score: 296, e: 0.55, reward: -124.62112671099325, runningAvg: -142.35361194565576
+episode: 466/2500, score: 187, e: 0.54, reward: -140.09800744223998, runningAvg: -142.11084344192244
+episode: 467/2500, score: 281, e: 0.54, reward: -118.74615724752417, runningAvg: -141.5608575718506
+episode: 468/2500, score: 384, e: 0.54, reward: -122.88630554735246, runningAvg: -141.4896351343093
+episode: 469/2500, score: 153, e: 0.54, reward: -89.42190023180949, runningAvg: -141.02727080185448
+episode: 470/2500, score: 245, e: 0.54, reward: -119.34503500855803, runningAvg: -140.13427912859567
+episode: 471/2500, score: 202, e: 0.53, reward: -206.95280559678145, runningAvg: -140.610517276757
+episode: 472/2500, score: 155, e: 0.53, reward: -97.52854441051281, runningAvg: -139.9818371685061
+episode: 473/2500, score: 685, e: 0.53, reward: -143.62599551483572, runningAvg: -140.7919570014936
+episode: 474/2500, score: 230, e: 0.53, reward: -94.31481995824882, runningAvg: -140.81942230763013
+episode: 475/2500, score: 173, e: 0.53, reward: -114.89181700367597, runningAvg: -140.41249919439568
+episode: 476/2500, score: 128, e: 0.52, reward: -139.36994874637017, runningAvg: -140.91925761434675
+episode: 477/2500, score: 200, e: 0.52, reward: -94.59052394423347, runningAvg: -140.79032867257885
+episode: 478/2500, score: 113, e: 0.52, reward: -62.17477228702487, runningAvg: -140.25742020744465
+episode: 479/2500, score: 156, e: 0.52, reward: -123.49261121428944, runningAvg: -138.47232497553964
+episode: 480/2500, score: 170, e: 0.52, reward: -137.84868713511491, runningAvg: -139.13305219247337
+episode: 481/2500, score: 226, e: 0.51, reward: -160.3609013896271, runningAvg: -138.78509179746464
+episode: 482/2500, score: 299, e: 0.51, reward: -102.56187249192976, runningAvg: -138.2007700625123
+episode: 483/2500, score: 391, e: 0.51, reward: -110.45173674251224, runningAvg: -138.07176679716628
+episode: 484/2500, score: 287, e: 0.51, reward: -106.68997490980094, runningAvg: -137.87356583598503
+episode: 485/2500, score: 285, e: 0.51, reward: -184.57570050583442, runningAvg: -138.0168824072781
+episode: 486/2500, score: 94, e: 0.5, reward: -179.7185399210814, runningAvg: -138.32141529540877
+episode: 487/2500, score: 83, e: 0.5, reward: -114.93411041287796, runningAvg: -138.1906363816128
+episode: 488/2500, score: 105, e: 0.5, reward: -142.7224286875113, runningAvg: -138.0144068019566
+episode: 489/2500, score: 258, e: 0.5, reward: -230.06215263971768, runningAvg: -138.65486225941177
+episode: 490/2500, score: 241, e: 0.49, reward: -118.7115665130378, runningAvg: -138.65788135611436
+episode: 491/2500, score: 1000, e: 0.49, reward: -81.49644359571269, runningAvg: -138.19093427060295
+episode: 492/2500, score: 333, e: 0.49, reward: -144.88158270309663, runningAvg: -137.82961736635653
+episode: 493/2500, score: 395, e: 0.49, reward: -102.9960504165537, runningAvg: -137.62312368367793
+episode: 494/2500, score: 506, e: 0.49, reward: -125.61609130318723, runningAvg: -137.6924103773658
+episode: 495/2500, score: 156, e: 0.49, reward: -181.73251692952206, runningAvg: -137.98021052520264
+episode: 496/2500, score: 1000, e: 0.48, reward: -60.57505644780966, runningAvg: -137.57585243021933
+episode: 497/2500, score: 446, e: 0.48, reward: -131.48222552571127, runningAvg: -137.42504255437254
+episode: 498/2500, score: 209, e: 0.48, reward: -60.92235628066951, runningAvg: -137.1348849722446
+episode: 499/2500, score: 671, e: 0.48, reward: -107.27124811468676, runningAvg: -137.0623710748485
+episode: 500/2500, score: 231, e: 0.48, reward: -127.2656584823117, runningAvg: -137.086645331711
+episode: 501/2500, score: 122, e: 0.47, reward: -143.85516484632572, runningAvg: -136.98216593535543
+episode: 502/2500, score: 246, e: 0.47, reward: -87.61442082151223, runningAvg: -136.861611351419
+episode: 503/2500, score: 274, e: 0.47, reward: -133.72612048263508, runningAvg: -136.85609914151766
+episode: 504/2500, score: 437, e: 0.47, reward: -172.91102504730583, runningAvg: -137.09089223104814
+episode: 505/2500, score: 156, e: 0.47, reward: -156.37252273554327, runningAvg: -137.18975307750435
+episode: 506/2500, score: 216, e: 0.46, reward: -60.845680137625536, runningAvg: -136.5647550501041
+episode: 507/2500, score: 166, e: 0.46, reward: -71.6419167731463, runningAvg: -135.9284997288274
+episode: 508/2500, score: 144, e: 0.46, reward: -264.1839436366713, runningAvg: -136.6901187670687
+episode: 509/2500, score: 252, e: 0.46, reward: -291.2259899647435, runningAvg: -137.71407891972473
+episode: 510/2500, score: 498, e: 0.46, reward: -209.3877965850217, runningAvg: -138.18135994191556
+episode: 511/2500, score: 134, e: 0.46, reward: -152.91491692156862, runningAvg: -138.05657640692047
+episode: 512/2500, score: 120, e: 0.45, reward: -159.23239903706866, runningAvg: -138.51195883944845
+episode: 513/2500, score: 141, e: 0.45, reward: -138.5044325477608, runningAvg: -138.73063933333745
+episode: 514/2500, score: 226, e: 0.45, reward: -114.5298345632105, runningAvg: -138.69420101732408
+episode: 515/2500, score: 109, e: 0.45, reward: -116.67222516262996, runningAvg: -138.19860109992194
+episode: 516/2500, score: 177, e: 0.45, reward: -226.56180694999463, runningAvg: -138.65082471254348
+episode: 517/2500, score: 1000, e: 0.44, reward: -29.962845234946954, runningAvg: -138.13822584868825
+episode: 518/2500, score: 599, e: 0.44, reward: -103.57379902261191, runningAvg: -137.96426576576522
+episode: 519/2500, score: 1000, e: 0.44, reward: -27.92830954638129, runningAvg: -137.31918131801436
+episode: 520/2500, score: 428, e: 0.44, reward: -181.9137211503928, runningAvg: -137.9305516541532
+episode: 521/2500, score: 97, e: 0.44, reward: -116.33500476417328, runningAvg: -137.95647995423224
+episode: 522/2500, score: 161, e: 0.44, reward: -177.65010527044439, runningAvg: -138.16513762974756
+episode: 523/2500, score: 128, e: 0.43, reward: -164.3053607096122, runningAvg: -137.6461652201084
+episode: 524/2500, score: 149, e: 0.43, reward: -121.6280435749047, runningAvg: -137.31991503218322
+episode: 525/2500, score: 1000, e: 0.43, reward: -26.842040504786006, runningAvg: -136.3873535759669
+episode: 526/2500, score: 1000, e: 0.43, reward: -18.242204114443105, runningAvg: -134.6414688913954
+episode: 527/2500, score: 1000, e: 0.43, reward: 10.867313991031546, runningAvg: -134.0178577464977
+episode: 528/2500, score: 121, e: 0.43, reward: -88.40666613169866, runningAvg: -134.04306501544957
+episode: 529/2500, score: 151, e: 0.42, reward: -69.98605168971277, runningAvg: -133.91691777116253
+episode: 530/2500, score: 203, e: 0.42, reward: -107.00636868440426, runningAvg: -133.54436747331764
+episode: 531/2500, score: 183, e: 0.42, reward: -115.11326178998803, runningAvg: -133.46445045113404
+episode: 532/2500, score: 151, e: 0.42, reward: -167.9889928186172, runningAvg: -133.49040607413713
+episode: 533/2500, score: 191, e: 0.42, reward: -159.70260092775206, runningAvg: -133.64862905740375
+episode: 534/2500, score: 211, e: 0.41, reward: -124.45444318740016, runningAvg: -133.50665957221688
+episode: 535/2500, score: 185, e: 0.41, reward: -140.15203242963474, runningAvg: -133.3691937052828
+episode: 536/2500, score: 327, e: 0.41, reward: -111.49578173842093, runningAvg: -133.23380075889617
+episode: 537/2500, score: 1000, e: 0.41, reward: -3.1746997488523183, runningAvg: -132.45361713083847
+episode: 538/2500, score: 209, e: 0.41, reward: -106.08477792979734, runningAvg: -132.04086436759005
+episode: 539/2500, score: 388, e: 0.41, reward: -119.75758484497361, runningAvg: -131.5324007718193
+episode: 540/2500, score: 1000, e: 0.41, reward: -16.029542734133173, runningAvg: -130.43346686364384
+episode: 541/2500, score: 133, e: 0.4, reward: -88.1818104257895, runningAvg: -129.91380101397385
+episode: 542/2500, score: 1000, e: 0.4, reward: 41.704675696702296, runningAvg: -129.13731347544615
+episode: 543/2500, score: 1000, e: 0.4, reward: 25.326046784935947, runningAvg: -127.95184590285666
+episode: 544/2500, score: 1000, e: 0.4, reward: -15.209030930824829, runningAvg: -126.72784744095394
+episode: 545/2500, score: 1000, e: 0.4, reward: 34.972524224887394, runningAvg: -125.39673758888976
+episode: 546/2500, score: 178, e: 0.4, reward: -142.78289787990565, runningAvg: -125.73103799341654
+episode: 547/2500, score: 1000, e: 0.39, reward: -35.787927508641125, runningAvg: -124.51146794633077
+episode: 548/2500, score: 1000, e: 0.39, reward: -16.387608255872173, runningAvg: -123.68146882391355
+episode: 549/2500, score: 177, e: 0.39, reward: -143.6236656418571, runningAvg: -123.84531551942018
+episode: 550/2500, score: 708, e: 0.39, reward: -134.22897832029105, runningAvg: -124.87856700922978
+episode: 551/2500, score: 173, e: 0.39, reward: -188.97869490812667, runningAvg: -125.49501681135779
+episode: 552/2500, score: 178, e: 0.39, reward: -82.93819725885062, runningAvg: -125.41517176119058
+episode: 553/2500, score: 1000, e: 0.38, reward: -30.826848884667296, runningAvg: -124.20228741748332
+episode: 554/2500, score: 1000, e: 0.38, reward: 66.81739536645466, runningAvg: -122.81607475886713
+episode: 555/2500, score: 284, e: 0.38, reward: -172.80430459342242, runningAvg: -123.55974079841714
+episode: 556/2500, score: 1000, e: 0.38, reward: 17.952878029727728, runningAvg: -121.92603283496496
+episode: 557/2500, score: 1000, e: 0.38, reward: -43.25365450207594, runningAvg: -121.47919889623009
+episode: 558/2500, score: 436, e: 0.38, reward: -250.3736576129753, runningAvg: -122.60027764105733
+episode: 559/2500, score: 1000, e: 0.38, reward: -60.338386556734584, runningAvg: -122.33314109062059
+episode: 560/2500, score: 1000, e: 0.37, reward: -5.649012715120091, runningAvg: -121.38336541690722
+episode: 561/2500, score: 282, e: 0.37, reward: -89.99419618353288, runningAvg: -120.26476384914419
+episode: 562/2500, score: 1000, e: 0.37, reward: 68.15892032069254, runningAvg: -117.81062103486474
+episode: 563/2500, score: 1000, e: 0.37, reward: -13.03518637890184, runningAvg: -117.13430885159137
+episode: 564/2500, score: 107, e: 0.37, reward: -177.11705823445774, runningAvg: -116.746511250336
+episode: 565/2500, score: 1000, e: 0.37, reward: 35.731250300290974, runningAvg: -115.50442636782607
+episode: 566/2500, score: 520, e: 0.37, reward: -121.0564970791281, runningAvg: -114.94239156237491
+episode: 567/2500, score: 162, e: 0.36, reward: -182.38720374872423, runningAvg: -115.16506638345912
+episode: 568/2500, score: 280, e: 0.36, reward: -77.51581068281541, runningAvg: -115.02193572031392
+episode: 569/2500, score: 1000, e: 0.36, reward: 37.605263958298394, runningAvg: -113.92001823120528
+episode: 570/2500, score: 264, e: 0.36, reward: -160.1775717249672, runningAvg: -114.20084871431933
+episode: 571/2500, score: 506, e: 0.36, reward: -202.48485311228785, runningAvg: -113.25177915308251
+episode: 572/2500, score: 166, e: 0.36, reward: -123.71500454412704, runningAvg: -112.75462960046444
+episode: 573/2500, score: 171, e: 0.35, reward: -154.80249898131873, runningAvg: -112.79708243999238
+episode: 574/2500, score: 1000, e: 0.35, reward: 62.050331041111534, runningAvg: -111.48503448275723
+episode: 575/2500, score: 1000, e: 0.35, reward: -158.4165648537701, runningAvg: -111.05506935415009
+episode: 576/2500, score: 1000, e: 0.35, reward: -26.458966315917944, runningAvg: -109.45707613002882
+episode: 577/2500, score: 155, e: 0.35, reward: -98.04297588596413, runningAvg: -108.69174897818999
+episode: 578/2500, score: 1000, e: 0.35, reward: -154.38874077847888, runningAvg: -107.7000352896541
+episode: 579/2500, score: 1000, e: 0.35, reward: -93.87560323330159, runningAvg: -107.34611108170888
+episode: 580/2500, score: 1000, e: 0.35, reward: 7.923502768737118, runningAvg: -106.5168325665341
+episode: 581/2500, score: 277, e: 0.34, reward: -56.48447516752121, runningAvg: -106.37474366645398
+episode: 582/2500, score: 640, e: 0.34, reward: -145.798484848117, runningAvg: -106.3062502770729
+episode: 583/2500, score: 409, e: 0.34, reward: -285.6724158618781, runningAvg: -107.32493557508198
+episode: 584/2500, score: 348, e: 0.34, reward: -95.09101259249088, runningAvg: -106.80107153240711
+episode: 585/2500, score: 1000, e: 0.34, reward: -2.9035895184070997, runningAvg: -106.16320637079966
+episode: 586/2500, score: 380, e: 0.34, reward: -204.49198657233433, runningAvg: -106.8523204220385
+episode: 587/2500, score: 1000, e: 0.34, reward: 69.22194232358225, runningAvg: -105.79723820504566
+episode: 588/2500, score: 1000, e: 0.33, reward: -117.66889111527846, runningAvg: -105.94369759933981
+episode: 589/2500, score: 114, e: 0.33, reward: -167.3141699838041, runningAvg: -106.62132472839556
+episode: 590/2500, score: 518, e: 0.33, reward: -168.54888183060632, runningAvg: -106.74504165911262
+episode: 591/2500, score: 1000, e: 0.33, reward: -85.81065764330222, runningAvg: -106.28346321580064
+episode: 592/2500, score: 1000, e: 0.33, reward: -56.77317387591164, runningAvg: -105.24707368245468
+episode: 593/2500, score: 394, e: 0.33, reward: -75.1702091732229, runningAvg: -104.8516193763629
+episode: 594/2500, score: 1000, e: 0.33, reward: -116.17900299587602, runningAvg: -104.62132983302386
+episode: 595/2500, score: 1000, e: 0.32, reward: 19.754833862409356, runningAvg: -104.28049255354232
+episode: 596/2500, score: 1000, e: 0.32, reward: -25.772718668593257, runningAvg: -103.70385982026751
+episode: 597/2500, score: 1000, e: 0.32, reward: 109.72321919408137, runningAvg: -102.91198718248229
+episode: 598/2500, score: 617, e: 0.32, reward: -156.2052932126902, runningAvg: -103.25365685234208
+episode: 599/2500, score: 1000, e: 0.32, reward: -83.41649462245054, runningAvg: -103.17420220050938
+episode: 600/2500, score: 1000, e: 0.32, reward: -4.2268629680497, runningAvg: -102.63392825916087
+episode: 601/2500, score: 358, e: 0.32, reward: -133.9287282261136, runningAvg: -103.15724905205754
+episode: 602/2500, score: 914, e: 0.32, reward: 172.5513155922157, runningAvg: -100.91898920616352
+episode: 603/2500, score: 875, e: 0.31, reward: -174.99384205405704, runningAvg: -100.42624623347939
+episode: 604/2500, score: 296, e: 0.31, reward: -72.75828638675065, runningAvg: -100.3144468666484
+episode: 605/2500, score: 1000, e: 0.31, reward: 36.433617099234446, runningAvg: -99.25807412183212
+episode: 606/2500, score: 384, e: 0.31, reward: -109.02503810270491, runningAvg: -99.07512628746498
+episode: 607/2500, score: 137, e: 0.31, reward: -331.36093570397, runningAvg: -101.00257561951892
+episode: 608/2500, score: 266, e: 0.31, reward: -227.07637120077453, runningAvg: -102.03331326933026
+episode: 609/2500, score: 159, e: 0.31, reward: -51.18032676812725, runningAvg: -101.45595739504857
+episode: 610/2500, score: 313, e: 0.31, reward: -81.3967573548004, runningAvg: -101.35233260790586
+episode: 611/2500, score: 391, e: 0.3, reward: -298.81172024228295, runningAvg: -102.30203451146762
+episode: 612/2500, score: 804, e: 0.3, reward: 213.90432015931557, runningAvg: -100.25292817992562
+episode: 613/2500, score: 1000, e: 0.3, reward: 39.09201230514027, runningAvg: -99.61279661817433
+episode: 614/2500, score: 611, e: 0.3, reward: -202.41354844683696, runningAvg: -100.05578417749699
+episode: 615/2500, score: 430, e: 0.3, reward: -54.38531654459901, runningAvg: -99.58754544305437
+episode: 616/2500, score: 803, e: 0.3, reward: -219.869805197481, runningAvg: -100.11935742808932
+episode: 617/2500, score: 118, e: 0.3, reward: -45.50409566415043, runningAvg: -99.63107701753349
+episode: 618/2500, score: 264, e: 0.3, reward: -69.51643001749073, runningAvg: -99.27527784733441
+episode: 619/2500, score: 1000, e: 0.3, reward: 10.063420665836064, runningAvg: -98.61204237468344
+episode: 620/2500, score: 1000, e: 0.29, reward: -30.514113970856627, runningAvg: -98.0198362344321
+episode: 621/2500, score: 1000, e: 0.29, reward: 87.76703428104642, runningAvg: -96.05503730191326
+episode: 622/2500, score: 1000, e: 0.29, reward: -98.61354517369618, runningAvg: -96.06227064033446
+episode: 623/2500, score: 1000, e: 0.29, reward: -9.153000809740679, runningAvg: -95.1657840089672
+episode: 624/2500, score: 1000, e: 0.29, reward: 72.54906794204892, runningAvg: -94.05335808963186
+episode: 625/2500, score: 1000, e: 0.29, reward: 19.12856767447067, runningAvg: -93.1598888584442
+episode: 626/2500, score: 1000, e: 0.29, reward: -3.778604290090228, runningAvg: -92.25594656206901
+episode: 627/2500, score: 1000, e: 0.29, reward: -36.014803504168384, runningAvg: -91.86544175913525
+episode: 628/2500, score: 1000, e: 0.28, reward: -31.143250513022416, runningAvg: -91.65856494730856
+episode: 629/2500, score: 1000, e: 0.28, reward: -17.97326227445043, runningAvg: -90.95510262104297
+episode: 630/2500, score: 1000, e: 0.28, reward: -31.12796044028913, runningAvg: -90.24363110974413
+episode: 631/2500, score: 925, e: 0.28, reward: -161.60935473426824, runningAvg: -90.25195413204173
+episode: 632/2500, score: 142, e: 0.28, reward: -49.168124690556155, runningAvg: -89.8959958133659
+episode: 633/2500, score: 1000, e: 0.28, reward: -54.8366310372877, runningAvg: -89.52522844199774
+episode: 634/2500, score: 988, e: 0.28, reward: 89.0725583064907, runningAvg: -88.22014488722246
+episode: 635/2500, score: 1000, e: 0.28, reward: 51.4208702531608, runningAvg: -86.64683441549582
+episode: 636/2500, score: 1000, e: 0.28, reward: -74.03566376090096, runningAvg: -85.9422819077613
+episode: 637/2500, score: 1000, e: 0.27, reward: -4.128154826554189, runningAvg: -85.2035755371858
+episode: 638/2500, score: 1000, e: 0.27, reward: -31.053527739951523, runningAvg: -84.45911619753541
+episode: 639/2500, score: 188, e: 0.27, reward: -30.038172883362535, runningAvg: -83.1256229991597
+episode: 640/2500, score: 1000, e: 0.27, reward: -47.14516302872745, runningAvg: -82.64851364259763
+episode: 641/2500, score: 1000, e: 0.27, reward: -29.3812872112525, runningAvg: -82.30107926670124
+episode: 642/2500, score: 1000, e: 0.27, reward: 114.80542867433009, runningAvg: -80.56983252418505
+episode: 643/2500, score: 1000, e: 0.27, reward: -46.63742205435594, runningAvg: -80.19410833510372
+episode: 644/2500, score: 1000, e: 0.27, reward: 95.2032067017537, runningAvg: -78.72197968173745
+episode: 645/2500, score: 1000, e: 0.27, reward: -44.57045910471131, runningAvg: -77.80756596290537
+episode: 646/2500, score: 1000, e: 0.26, reward: 38.372963515346825, runningAvg: -77.14791249648432
+episode: 647/2500, score: 1000, e: 0.26, reward: 31.713714635424132, runningAvg: -76.05993956207676
+episode: 648/2500, score: 1000, e: 0.26, reward: 62.07727538767949, runningAvg: -75.2399420176211
+episode: 649/2500, score: 674, e: 0.26, reward: 156.0858203192196, runningAvg: -73.48422822806172
+episode: 650/2500, score: 1000, e: 0.26, reward: -13.59932749036704, runningAvg: -72.72645268811543
+episode: 651/2500, score: 136, e: 0.26, reward: -19.737883245838958, runningAvg: -71.89900414411217
+episode: 652/2500, score: 1000, e: 0.26, reward: 29.551879869691227, runningAvg: -71.11789547283747
+episode: 653/2500, score: 196, e: 0.26, reward: -49.342792797996005, runningAvg: -70.5553399549399
+episode: 654/2500, score: 1000, e: 0.26, reward: -2.514586392561286, runningAvg: -69.4193636972416
+episode: 655/2500, score: 194, e: 0.26, reward: 3.502445456598821, runningAvg: -68.35353057596066
+episode: 656/2500, score: 281, e: 0.25, reward: -21.644357794398076, runningAvg: -68.0921884270058
+episode: 657/2500, score: 1000, e: 0.25, reward: 80.90832179663272, runningAvg: -67.0751868365406
+episode: 658/2500, score: 1000, e: 0.25, reward: 83.4068741877061, runningAvg: -64.75791471771146
+episode: 659/2500, score: 1000, e: 0.25, reward: -18.51611025242906, runningAvg: -62.93984885296269
+episode: 660/2500, score: 502, e: 0.25, reward: -100.8510457671388, runningAvg: -62.21627051417679
+episode: 661/2500, score: 96, e: 0.25, reward: -55.69415855824461, runningAvg: -61.56813212508798
+episode: 662/2500, score: 1000, e: 0.25, reward: 67.15689593356097, runningAvg: -60.058870158617104
+episode: 663/2500, score: 319, e: 0.25, reward: -360.4007164591891, runningAvg: -61.53817871802662
+episode: 664/2500, score: 1000, e: 0.25, reward: 12.102689470639032, runningAvg: -60.693961891134286
+episode: 665/2500, score: 1000, e: 0.25, reward: 63.376077261538846, runningAvg: -59.49363987497317
+episode: 666/2500, score: 1000, e: 0.24, reward: -14.14483772388931, runningAvg: -58.07752674679912
+episode: 667/2500, score: 764, e: 0.24, reward: 103.38167812975907, runningAvg: -57.188563257701084
+episode: 668/2500, score: 513, e: 0.24, reward: 166.2984154998742, runningAvg: -55.389415160884525
+episode: 669/2500, score: 540, e: 0.24, reward: -86.73441588674194, runningAvg: -55.78145586982026
+episode: 670/2500, score: 1000, e: 0.24, reward: -19.240765110159344, runningAvg: -54.6969694962187
+episode: 671/2500, score: 340, e: 0.24, reward: 257.0580056289575, runningAvg: -52.207682760264504
+episode: 672/2500, score: 1000, e: 0.24, reward: -4.690132463322577, runningAvg: -51.054616274883706
+episode: 673/2500, score: 1000, e: 0.24, reward: 2.2805863336766405, runningAvg: -49.94404329459512
+episode: 674/2500, score: 1000, e: 0.24, reward: 85.71338308870965, runningAvg: -48.561767116837686
+episode: 675/2500, score: 964, e: 0.24, reward: 49.01126053044769, runningAvg: -48.05607844326946
+episode: 676/2500, score: 886, e: 0.23, reward: 132.63406675794897, runningAvg: -47.050236637453516
+episode: 677/2500, score: 551, e: 0.23, reward: 172.4614242025118, runningAvg: -45.97294256937698
+episode: 678/2500, score: 435, e: 0.23, reward: 241.95048938467065, runningAvg: -43.77056153260119
+episode: 679/2500, score: 1000, e: 0.23, reward: 59.64967626215014, runningAvg: -42.906323346255434
+episode: 680/2500, score: 1000, e: 0.23, reward: -23.308813846550205, runningAvg: -42.34833964733641
+episode: 681/2500, score: 132, e: 0.23, reward: -11.786929749969318, runningAvg: -41.65949743373628
+episode: 682/2500, score: 186, e: 0.23, reward: -33.00802075981835, runningAvg: -40.75962428667762
+episode: 683/2500, score: 1000, e: 0.23, reward: -17.763435354710218, runningAvg: -39.81336318285734
+episode: 684/2500, score: 1000, e: 0.23, reward: 45.06841316757033, runningAvg: -38.68321080715753
+episode: 685/2500, score: 1000, e: 0.23, reward: -49.397614696160005, runningAvg: -38.07818135560104
+episode: 686/2500, score: 271, e: 0.23, reward: -38.820837816060745, runningAvg: -37.59368172945198
+episode: 687/2500, score: 1000, e: 0.22, reward: 43.083772480289014, runningAvg: -37.28529191459103
+episode: 688/2500, score: 320, e: 0.22, reward: -40.808935037631954, runningAvg: -36.85011962864326
+episode: 689/2500, score: 1000, e: 0.22, reward: -38.44177524098242, runningAvg: -36.30801423128332
+episode: 690/2500, score: 238, e: 0.22, reward: -67.98581751284846, runningAvg: -36.65438939647477
+episode: 691/2500, score: 476, e: 0.22, reward: -120.18356550625157, runningAvg: -36.867734430344505
+episode: 692/2500, score: 923, e: 0.22, reward: 119.05262085338393, runningAvg: -36.3520814626333
+episode: 693/2500, score: 1000, e: 0.22, reward: 12.581870677039944, runningAvg: -36.43704263668594
+episode: 694/2500, score: 237, e: 0.22, reward: -83.59619059596746, runningAvg: -36.892957034453566
+episode: 695/2500, score: 1000, e: 0.22, reward: 72.06880754872839, runningAvg: -36.64564847896128
+episode: 696/2500, score: 1000, e: 0.22, reward: -109.06452304036982, runningAvg: -36.42085931336438
+episode: 697/2500, score: 1000, e: 0.22, reward: -35.36876828048888, runningAvg: -36.41806491851003
+episode: 698/2500, score: 1000, e: 0.22, reward: 21.733784810820627, runningAvg: -36.1639222980654
+episode: 699/2500, score: 1000, e: 0.21, reward: -38.04755462822088, runningAvg: -35.46008155797449
+episode: 700/2500, score: 1000, e: 0.21, reward: -0.5314388449666487, runningAvg: -34.56876462813898
+episode: 701/2500, score: 157, e: 0.21, reward: -66.70104470397047, runningAvg: -33.75358029344461
+episode: 702/2500, score: 1000, e: 0.21, reward: 74.9409767115539, runningAvg: -32.70105246697524
+episode: 703/2500, score: 708, e: 0.21, reward: 153.16916104730117, runningAvg: -31.474412400762127
+episode: 704/2500, score: 1000, e: 0.21, reward: -66.04521954577496, runningAvg: -32.36016316684365
+episode: 705/2500, score: 208, e: 0.21, reward: -20.36688937718486, runningAvg: -31.343913732068728
+episode: 706/2500, score: 154, e: 0.21, reward: 15.713699993363548, runningAvg: -31.358841585644488
+episode: 707/2500, score: 890, e: 0.21, reward: 185.89617945589606, runningAvg: -29.831176025924677
+episode: 708/2500, score: 931, e: 0.21, reward: 134.2498595983969, runningAvg: -27.267019244515534
+episode: 709/2500, score: 1000, e: 0.21, reward: 110.77142773066845, runningAvg: -26.126287149266172
+episode: 710/2500, score: 798, e: 0.2, reward: 121.160603893808, runningAvg: -25.280889705206658
+episode: 711/2500, score: 758, e: 0.2, reward: -135.2259732800133, runningAvg: -25.582434885849853
+episode: 712/2500, score: 771, e: 0.2, reward: -192.29082046912333, runningAvg: -27.318766491115298
+episode: 713/2500, score: 1000, e: 0.2, reward: -33.58777391982797, runningAvg: -27.45578374138813
+episode: 714/2500, score: 1000, e: 0.2, reward: 17.172485964919304, runningAvg: -26.160520113392284
+episode: 715/2500, score: 1000, e: 0.2, reward: 98.12563746214882, runningAvg: -25.744557532313234
+episode: 716/2500, score: 1000, e: 0.2, reward: -25.13654141896908, runningAvg: -25.105091161245518
+episode: 717/2500, score: 628, e: 0.2, reward: 158.2445082240282, runningAvg: -22.83421308142718
+episode: 718/2500, score: 1000, e: 0.2, reward: 10.631695073062422, runningAvg: -22.24656304305465
+episode: 719/2500, score: 1000, e: 0.2, reward: 53.07696293528022, runningAvg: -22.14341838320811
+episode: 720/2500, score: 1000, e: 0.2, reward: -21.82860746055989, runningAvg: -21.22109195477873
+episode: 721/2500, score: 624, e: 0.2, reward: 167.7963481984449, runningAvg: -18.75255061270719
+episode: 722/2500, score: 518, e: 0.2, reward: 200.91356611897618, runningAvg: -16.588360141619823
+episode: 723/2500, score: 182, e: 0.19, reward: -55.777182826736784, runningAvg: -15.928191367255952
+episode: 724/2500, score: 971, e: 0.19, reward: 156.47845280204325, runningAvg: -15.2986705555164
+episode: 725/2500, score: 110, e: 0.19, reward: -46.601773484430296, runningAvg: -14.553238613054143
+episode: 726/2500, score: 1000, e: 0.19, reward: -15.941360752510363, runningAvg: -14.483121242631427
+episode: 727/2500, score: 231, e: 0.19, reward: 197.8276717120389, runningAvg: -12.510650258644738
+episode: 728/2500, score: 615, e: 0.19, reward: 170.23036978938103, runningAvg: -10.346522854859012
+episode: 729/2500, score: 239, e: 0.19, reward: -3.28394223877757, runningAvg: -9.742578448228848
+episode: 730/2500, score: 759, e: 0.19, reward: 174.04484281596967, runningAvg: -8.635102847913965
+episode: 731/2500, score: 666, e: 0.19, reward: 142.40872750407027, runningAvg: -7.30914816343669
+episode: 732/2500, score: 1000, e: 0.19, reward: 39.34913310272901, runningAvg: -6.074830710431047
+episode: 733/2500, score: 162, e: 0.19, reward: -186.3590714822309, runningAvg: -5.412741747900073
+episode: 734/2500, score: 1000, e: 0.19, reward: 14.347369842449636, runningAvg: -4.683152531667141
+episode: 735/2500, score: 173, e: 0.19, reward: -205.36351589877043, runningAvg: -6.0328853742028965
+episode: 736/2500, score: 595, e: 0.18, reward: -128.4314242821104, runningAvg: -5.525814958934727
+episode: 737/2500, score: 1000, e: 0.18, reward: -29.10678874549388, runningAvg: -6.181339832728566
+episode: 738/2500, score: 1000, e: 0.18, reward: 93.8127400953775, runningAvg: -4.771462291324196
+episode: 739/2500, score: 1000, e: 0.18, reward: -20.598806300260947, runningAvg: -3.793359866767237
+episode: 740/2500, score: 271, e: 0.18, reward: 257.398459698558, runningAvg: -0.9537109232394781
+episode: 741/2500, score: 118, e: 0.18, reward: -67.07074892284521, runningAvg: -0.8287781984364362
+episode: 742/2500, score: 1000, e: 0.18, reward: 6.694510832757104, runningAvg: -0.4056603003786441
+episode: 743/2500, score: 617, e: 0.18, reward: 168.45810467779324, runningAvg: 1.2185284586281306
+episode: 744/2500, score: 155, e: 0.18, reward: -239.4473171693062, runningAvg: 0.39673969747193494
+episode: 745/2500, score: 353, e: 0.18, reward: 130.03082985822812, runningAvg: 1.1319130041107277
+episode: 746/2500, score: 447, e: 0.18, reward: 131.21875885809123, runningAvg: 2.178522854288625
+episode: 747/2500, score: 251, e: 0.18, reward: -113.71183988670884, runningAvg: 0.6889557937500203
+episode: 748/2500, score: 493, e: 0.18, reward: 166.04681000459775, runningAvg: 2.837303148531942
+episode: 749/2500, score: 1000, e: 0.18, reward: 33.938249555802315, runningAvg: 3.6196681097202963
+episode: 750/2500, score: 157, e: 0.17, reward: -199.33186749211285, runningAvg: 2.318968079559873
+episode: 751/2500, score: 200, e: 0.17, reward: 179.04228740012218, runningAvg: 4.4054415170681125
+episode: 752/2500, score: 132, e: 0.17, reward: -167.3116298679414, runningAvg: 2.139688547333733
+episode: 753/2500, score: 139, e: 0.17, reward: -164.2051552052289, runningAvg: 2.211613126325919
+episode: 754/2500, score: 577, e: 0.17, reward: -341.9452341722003, runningAvg: 0.41703347442292094
+episode: 755/2500, score: 410, e: 0.17, reward: -399.82974177593957, runningAvg: -2.4913889180782376
+episode: 756/2500, score: 273, e: 0.17, reward: 264.8054560049778, runningAvg: 0.0008143759729807698
+episode: 757/2500, score: 99, e: 0.17, reward: -254.64034008017043, runningAvg: 0.5122850134649736
+episode: 758/2500, score: 113, e: 0.17, reward: -56.57661843680758, runningAvg: 1.648950031891419
+episode: 759/2500, score: 113, e: 0.17, reward: -127.22918475025666, runningAvg: 1.1419576453438915
+episode: 760/2500, score: 1000, e: 0.17, reward: -90.47157722187364, runningAvg: 1.0814588462300658
+episode: 761/2500, score: 1000, e: 0.17, reward: -142.75785211381148, runningAvg: 2.121817967086544
+episode: 762/2500, score: 1000, e: 0.17, reward: -79.24125018577641, runningAvg: 0.16751416478592887
+episode: 763/2500, score: 880, e: 0.17, reward: 126.19724940883037, runningAvg: 0.7482157454771975
+episode: 764/2500, score: 364, e: 0.17, reward: 245.7221944174069, runningAvg: 3.7357873645721567
+episode: 765/2500, score: 1000, e: 0.16, reward: -42.55538055469516, runningAvg: 3.8146536045048482
+episode: 766/2500, score: 1000, e: 0.16, reward: -84.59614444336363, runningAvg: 4.716478009532298
+episode: 767/2500, score: 472, e: 0.16, reward: 202.0987733888883, runningAvg: 6.367163803219227
+episode: 768/2500, score: 1000, e: 0.16, reward: -116.8252584992228, runningAvg: 6.051771613341014
+episode: 769/2500, score: 357, e: 0.16, reward: -73.87372446762778, runningAvg: 5.492190645784589
+episode: 770/2500, score: 1000, e: 0.16, reward: -73.13834438136826, runningAvg: 5.208029109714512
+episode: 771/2500, score: 1000, e: 0.16, reward: -39.87045880500892, runningAvg: 4.357112489140808
+episode: 772/2500, score: 1000, e: 0.16, reward: -147.34899014574736, runningAvg: 4.032209522660466
+episode: 773/2500, score: 1000, e: 0.16, reward: -88.33515111247829, runningAvg: 3.5043285206422143
+episode: 774/2500, score: 984, e: 0.16, reward: 201.01224544366153, runningAvg: 4.360749703986298
+episode: 775/2500, score: 1000, e: 0.16, reward: -90.34743259267776, runningAvg: 3.6309097022053085
+episode: 776/2500, score: 1000, e: 0.16, reward: -112.76875969052526, runningAvg: 2.9043086662024096
+episode: 777/2500, score: 1000, e: 0.16, reward: -27.167952089832973, runningAvg: 2.963287675631313
+episode: 778/2500, score: 1000, e: 0.16, reward: -94.92496715661895, runningAvg: 2.538076231340669
+episode: 779/2500, score: 1000, e: 0.16, reward: 42.6367176825881, runningAvg: 2.942142764387591
+episode: 780/2500, score: 450, e: 0.15, reward: 211.14851983455935, runningAvg: 4.557319299553246
+episode: 781/2500, score: 1000, e: 0.15, reward: -80.4471888229663, runningAvg: 5.098400405628596
+episode: 782/2500, score: 385, e: 0.15, reward: 223.23204739618637, runningAvg: 6.914401552873548
+episode: 783/2500, score: 1000, e: 0.15, reward: -72.25589271679218, runningAvg: 6.79827314167685
+episode: 784/2500, score: 282, e: 0.15, reward: 245.30828135142667, runningAvg: 7.839844628643086
+episode: 785/2500, score: 1000, e: 0.15, reward: -26.833116299052335, runningAvg: 7.3181513849616735
+episode: 786/2500, score: 583, e: 0.15, reward: 193.59926378891222, runningAvg: 9.102384235293755
+episode: 787/2500, score: 480, e: 0.15, reward: 194.23119693013422, runningAvg: 10.42477991367168
+episode: 788/2500, score: 122, e: 0.15, reward: -80.44943067660314, runningAvg: 10.095473894094006
+episode: 789/2500, score: 125, e: 0.15, reward: -35.9116843902022, runningAvg: 10.056317150715069
+episode: 790/2500, score: 778, e: 0.15, reward: 117.80535429717594, runningAvg: 11.155987266221095
+episode: 791/2500, score: 989, e: 0.15, reward: 63.53739336413426, runningAvg: 11.77544513672367
+episode: 792/2500, score: 748, e: 0.15, reward: 191.7726320982688, runningAvg: 12.288559826216598
+episode: 793/2500, score: 474, e: 0.15, reward: 163.46222257062487, runningAvg: 13.68922412371647
+episode: 794/2500, score: 1000, e: 0.15, reward: 101.69288815930577, runningAvg: 13.732488666766809
+episode: 795/2500, score: 138, e: 0.15, reward: 30.274425493991572, runningAvg: 14.231454564091504
+episode: 796/2500, score: 1000, e: 0.15, reward: 36.150762195810834, runningAvg: 14.216639888627924
+episode: 797/2500, score: 1000, e: 0.14, reward: -134.91125396522776, runningAvg: 13.105806764623576
+episode: 798/2500, score: 709, e: 0.14, reward: 132.80504455515344, runningAvg: 13.577325225740074
+episode: 799/2500, score: 550, e: 0.14, reward: 195.83090579756572, runningAvg: 13.842292462262382
+episode: 800/2500, score: 1000, e: 0.14, reward: -76.05184473481874, runningAvg: 13.425942347299374
+episode: 801/2500, score: 147, e: 0.14, reward: -55.286501964215624, runningAvg: 13.188951555843527
+episode: 802/2500, score: 1000, e: 0.14, reward: -105.37777656082868, runningAvg: 12.289420512973397
+episode: 803/2500, score: 978, e: 0.14, reward: 42.240692192400076, runningAvg: 12.899977079576033
+episode: 804/2500, score: 1000, e: 0.14, reward: 42.84859193592928, runningAvg: 13.20239826843264
+episode: 805/2500, score: 177, e: 0.14, reward: -206.4132798315586, runningAvg: 11.802960099844922
+episode: 806/2500, score: 323, e: 0.14, reward: 185.20235904578078, runningAvg: 13.181938212112781
+episode: 807/2500, score: 1000, e: 0.14, reward: -95.36597762430361, runningAvg: 12.00677621597321
+episode: 808/2500, score: 195, e: 0.14, reward: -42.79908907957079, runningAvg: 11.165403127524689
+episode: 809/2500, score: 1000, e: 0.14, reward: -102.61860843559136, runningAvg: 10.604719806303612
+episode: 810/2500, score: 1000, e: 0.14, reward: -147.81453237573515, runningAvg: 10.291629895579636
+episode: 811/2500, score: 203, e: 0.14, reward: -16.704767061043412, runningAvg: 10.551559172227643
+episode: 812/2500, score: 469, e: 0.14, reward: 201.315776747318, runningAvg: 11.445951710986026
+episode: 813/2500, score: 231, e: 0.14, reward: 215.726897107344, runningAvg: 15.286802468096251
+episode: 814/2500, score: 1000, e: 0.14, reward: -116.11251996840721, runningAvg: 14.432034405169276
+episode: 815/2500, score: 341, e: 0.13, reward: 222.98402541923576, runningAvg: 15.496087392887251
+episode: 816/2500, score: 509, e: 0.13, reward: 178.63811878765674, runningAvg: 16.781307102964227
+episode: 817/2500, score: 596, e: 0.13, reward: 181.9035032890626, runningAvg: 17.304785937359576
+episode: 818/2500, score: 1000, e: 0.13, reward: -93.06154702012928, runningAvg: 15.575719520559554
+episode: 819/2500, score: 494, e: 0.13, reward: 249.34886720181888, runningAvg: 17.816274741149957
+episode: 820/2500, score: 492, e: 0.13, reward: 154.46871925992974, runningAvg: 18.974337970283887
+episode: 821/2500, score: 417, e: 0.13, reward: 232.6244994070063, runningAvg: 18.811447928804217
+episode: 822/2500, score: 219, e: 0.13, reward: -33.73278351328263, runningAvg: 18.617830255137815
+episode: 823/2500, score: 269, e: 0.13, reward: 160.3054443998825, runningAvg: 19.671329308912522
+episode: 824/2500, score: 1000, e: 0.13, reward: -108.40147439832168, runningAvg: 18.377230258998974
+episode: 825/2500, score: 633, e: 0.13, reward: 49.23064399553566, runningAvg: 18.378692815432892
+episode: 826/2500, score: 964, e: 0.13, reward: 38.03809181142947, runningAvg: 17.7480529824561
+episode: 827/2500, score: 602, e: 0.13, reward: 152.34623206433048, runningAvg: 17.613951701534884
+episode: 828/2500, score: 425, e: 0.13, reward: 171.74506417834678, runningAvg: 17.145915533492726
+episode: 829/2500, score: 1000, e: 0.13, reward: -66.82609332034039, runningAvg: 16.30274373627612
+episode: 830/2500, score: 300, e: 0.13, reward: 215.59071470230023, runningAvg: 17.895407259935123
+episode: 831/2500, score: 1000, e: 0.13, reward: -25.57500414915649, runningAvg: 17.803486763940544
+episode: 832/2500, score: 638, e: 0.13, reward: 176.38367495533987, runningAvg: 19.199431402041597
+episode: 833/2500, score: 114, e: 0.13, reward: 12.978891072871193, runningAvg: 19.40438024489214
+episode: 834/2500, score: 1000, e: 0.12, reward: -100.53647608579055, runningAvg: 18.433680983203068
+episode: 835/2500, score: 1000, e: 0.12, reward: -78.33843578946326, runningAvg: 18.240742175914377
+episode: 836/2500, score: 442, e: 0.12, reward: 207.7907753078233, runningAvg: 19.88481959674027
+episode: 837/2500, score: 1000, e: 0.12, reward: -91.26757554593776, runningAvg: 18.989143943232097
+episode: 838/2500, score: 1000, e: 0.12, reward: 10.650592365754168, runningAvg: 19.332207459254672
+episode: 839/2500, score: 1000, e: 0.12, reward: 100.60956344437487, runningAvg: 20.259216383823716
+episode: 840/2500, score: 729, e: 0.12, reward: 197.70481791208485, runningAvg: 22.030487286656605
+episode: 841/2500, score: 689, e: 0.12, reward: 173.1366090681372, runningAvg: 23.985955117152535
+episode: 842/2500, score: 775, e: 0.12, reward: 210.75735535726676, runningAvg: 24.597320013845085
+episode: 843/2500, score: 274, e: 0.12, reward: 188.11312379208425, runningAvg: 25.767528367945378
+episode: 844/2500, score: 81, e: 0.12, reward: -86.52030919488062, runningAvg: 25.748034243952624
+episode: 845/2500, score: 122, e: 0.12, reward: -20.210166016642177, runningAvg: 25.132841086850156
+episode: 846/2500, score: 104, e: 0.12, reward: -147.43139757869898, runningAvg: 24.877061923261294
+episode: 847/2500, score: 106, e: 0.12, reward: -188.42611907874402, runningAvg: 23.856679584606262
+episode: 848/2500, score: 127, e: 0.12, reward: -66.70253427555389, runningAvg: 23.267104124030432
+episode: 849/2500, score: 109, e: 0.12, reward: -5.282539707389404, runningAvg: 23.485537556835972
+episode: 850/2500, score: 531, e: 0.12, reward: 136.30667219090836, runningAvg: 24.397791630408477
+episode: 851/2500, score: 397, e: 0.12, reward: 200.19219177512952, runningAvg: 26.177079873602484
+episode: 852/2500, score: 250, e: 0.12, reward: 192.2580667525573, runningAvg: 26.959193807209164
+episode: 853/2500, score: 319, e: 0.12, reward: 181.81610944259697, runningAvg: 27.150173463177797
+episode: 854/2500, score: 149, e: 0.12, reward: -227.58772713637492, runningAvg: 26.073223412573803
+episode: 855/2500, score: 598, e: 0.11, reward: 169.5788081269937, runningAvg: 27.33952806260166
+episode: 856/2500, score: 124, e: 0.11, reward: -28.65326277019122, runningAvg: 27.043748310844627
+episode: 857/2500, score: 99, e: 0.11, reward: -15.086223193603146, runningAvg: 25.703865626514638
+episode: 858/2500, score: 415, e: 0.11, reward: 191.50867928120095, runningAvg: 26.085591091066657
+episode: 859/2500, score: 623, e: 0.11, reward: 233.8989092942001, runningAvg: 26.90644096815688
+episode: 860/2500, score: 442, e: 0.11, reward: 190.2527312366455, runningAvg: 27.36705515044246
+episode: 861/2500, score: 175, e: 0.11, reward: -23.146824327806968, runningAvg: 28.11424947679051
+episode: 862/2500, score: 247, e: 0.11, reward: 260.8345627839547, runningAvg: 31.13508536514435
+episode: 863/2500, score: 705, e: 0.11, reward: 115.5991228696852, runningAvg: 32.12966467707443
+episode: 864/2500, score: 236, e: 0.11, reward: 231.07947000963773, runningAvg: 33.555711237372556
+episode: 865/2500, score: 422, e: 0.11, reward: 211.1332911521709, runningAvg: 34.30909559530604
+episode: 866/2500, score: 424, e: 0.11, reward: 236.18167969328331, runningAvg: 36.051217069387725
+episode: 867/2500, score: 424, e: 0.11, reward: 144.0589889861916, runningAvg: 35.95664694113548
+episode: 868/2500, score: 183, e: 0.11, reward: -8.58747844065229, runningAvg: 35.82851911771072
+episode: 869/2500, score: 1000, e: 0.11, reward: -41.900911034456435, runningAvg: 35.19533329124581
+episode: 870/2500, score: 253, e: 0.11, reward: 236.16071544947502, runningAvg: 36.91526211064603
+episode: 871/2500, score: 345, e: 0.11, reward: 263.39497089941347, runningAvg: 37.55258626198584
+episode: 872/2500, score: 586, e: 0.11, reward: 206.96501711994634, runningAvg: 37.59292926865897
+episode: 873/2500, score: 591, e: 0.11, reward: 161.8141179029771, runningAvg: 39.0435379401904
+episode: 874/2500, score: 1000, e: 0.11, reward: -133.6668241003012, runningAvg: 37.109236094174776
+episode: 875/2500, score: 930, e: 0.11, reward: 114.55210104535855, runningAvg: 38.18359525770669
+episode: 876/2500, score: 1000, e: 0.11, reward: -102.53208510506761, runningAvg: 37.60632376202298
+episode: 877/2500, score: 338, e: 0.1, reward: 198.48602095258755, runningAvg: 37.61071275695998
+episode: 878/2500, score: 872, e: 0.1, reward: 158.51265883441323, runningAvg: 37.53259468392685
+episode: 879/2500, score: 1000, e: 0.1, reward: -112.9855089791455, runningAvg: 36.80125090565774
+episode: 880/2500, score: 655, e: 0.1, reward: 128.36933219566566, runningAvg: 36.496747501522364
+episode: 881/2500, score: 419, e: 0.1, reward: 191.40941657613024, runningAvg: 36.82341876200276
+episode: 882/2500, score: 749, e: 0.1, reward: 149.64724099118928, runningAvg: 37.55873948125917
+episode: 883/2500, score: 224, e: 0.1, reward: 255.53006123245115, runningAvg: 40.50466703269038
+episode: 884/2500, score: 416, e: 0.1, reward: 179.20065139157714, runningAvg: 41.60368890968456
+episode: 885/2500, score: 858, e: 0.1, reward: 159.6821252016325, runningAvg: 44.037326517020595
+episode: 886/2500, score: 262, e: 0.1, reward: 193.57447519791558, runningAvg: 46.184032513554094
+episode: 887/2500, score: 408, e: 0.1, reward: 211.66820098873083, runningAvg: 47.78919911178225
+episode: 888/2500, score: 93, e: 0.1, reward: -84.75481988296747, runningAvg: 46.59874871192662
+episode: 889/2500, score: 116, e: 0.1, reward: -21.25270435594082, runningAvg: 46.594389391555424
+episode: 890/2500, score: 100, e: 0.1, reward: -47.086090271062105, runningAvg: 44.56449239175795
+episode: 891/2500, score: 281, e: 0.099, reward: 215.3178563951729, runningAvg: 46.447083093878085
+episode: 892/2500, score: 275, e: 0.099, reward: 233.02420838571481, runningAvg: 47.955947744231125
+episode: 893/2500, score: 126, e: 0.098, reward: -19.266010176715184, runningAvg: 46.70445364520107
+episode: 894/2500, score: 228, e: 0.098, reward: 245.76930718318303, runningAvg: 49.93923114088433
+episode: 895/2500, score: 449, e: 0.098, reward: 202.1462427156621, runningAvg: 50.42000055993388
+episode: 896/2500, score: 113, e: 0.097, reward: -34.50597106722407, runningAvg: 49.31516902709845
+episode: 897/2500, score: 121, e: 0.097, reward: -2.3968197543768355, runningAvg: 50.057269161314
+episode: 898/2500, score: 226, e: 0.096, reward: 261.7032776235131, runningAvg: 50.69497894544009
+episode: 899/2500, score: 246, e: 0.096, reward: 221.11786221971494, runningAvg: 51.94284302986618
+episode: 900/2500, score: 137, e: 0.096, reward: 17.392404714220916, runningAvg: 53.387671511241734
+episode: 901/2500, score: 1000, e: 0.095, reward: -26.77472298819337, runningAvg: 52.01555810865298
+episode: 902/2500, score: 143, e: 0.095, reward: -5.76481436163418, runningAvg: 53.092536878695014
+episode: 903/2500, score: 575, e: 0.095, reward: 169.13358335476778, runningAvg: 55.31479513576167
+episode: 904/2500, score: 255, e: 0.094, reward: 227.62048597468726, runningAvg: 59.11189993674093
+episode: 905/2500, score: 293, e: 0.094, reward: 219.5713624774828, runningAvg: 63.24124063176373
+episode: 906/2500, score: 274, e: 0.093, reward: 240.60969146657973, runningAvg: 63.079935534841084
+episode: 907/2500, score: 726, e: 0.093, reward: 109.7568646011829, runningAvg: 65.50925023271677
+episode: 908/2500, score: 367, e: 0.093, reward: 235.0646170608949, runningAvg: 67.45352513603478
+episode: 909/2500, score: 284, e: 0.092, reward: 217.97717296911355, runningAvg: 69.7549008541639
+episode: 910/2500, score: 414, e: 0.092, reward: 174.07215318665962, runningAvg: 71.51852572355413
+episode: 911/2500, score: 278, e: 0.092, reward: 194.7878847061075, runningAvg: 73.76883063568692
+episode: 912/2500, score: 506, e: 0.091, reward: 203.71588448405996, runningAvg: 75.65521153348584
+episode: 913/2500, score: 208, e: 0.091, reward: 231.38581311543845, runningAvg: 76.35646862486323
+episode: 914/2500, score: 371, e: 0.09, reward: 182.67414415155406, runningAvg: 75.93614828975754
+episode: 915/2500, score: 1000, e: 0.09, reward: -80.17854432090823, runningAvg: 75.68532719798279
+episode: 916/2500, score: 751, e: 0.09, reward: 153.16149919008518, runningAvg: 77.2703781555391
+episode: 917/2500, score: 410, e: 0.089, reward: 187.8654116934317, runningAvg: 77.1754890775694
+episode: 918/2500, score: 335, e: 0.089, reward: 181.14592237846563, runningAvg: 79.161963616754
+episode: 919/2500, score: 470, e: 0.089, reward: 212.0740954536999, runningAvg: 81.06828241622951
+episode: 920/2500, score: 876, e: 0.088, reward: 85.01250678376502, runningAvg: 82.12262142399707
+episode: 921/2500, score: 230, e: 0.088, reward: 196.90480923499018, runningAvg: 83.70112321093038
+episode: 922/2500, score: 119, e: 0.088, reward: -58.956208065569115, runningAvg: 84.29040842479824
+episode: 923/2500, score: 671, e: 0.087, reward: 236.85678055469108, runningAvg: 86.45835463591271
+episode: 924/2500, score: 607, e: 0.087, reward: 148.6630440193835, runningAvg: 86.10935995975086
+episode: 925/2500, score: 351, e: 0.087, reward: 244.12439063610648, runningAvg: 88.33917211460943
+episode: 926/2500, score: 332, e: 0.086, reward: 212.76332593354925, runningAvg: 90.50938601876993
+episode: 927/2500, score: 870, e: 0.086, reward: 85.78350666467865, runningAvg: 91.2623957438
+episode: 928/2500, score: 652, e: 0.086, reward: 217.41315622966414, runningAvg: 93.34464989970856
+episode: 929/2500, score: 259, e: 0.085, reward: 173.99810165831357, runningAvg: 94.22039245954672
+episode: 930/2500, score: 542, e: 0.085, reward: 181.5755666753661, runningAvg: 94.02323943848545
+episode: 931/2500, score: 408, e: 0.085, reward: 214.49206416947902, runningAvg: 95.98950112510174
+episode: 932/2500, score: 1000, e: 0.084, reward: -93.25023979383377, runningAvg: 93.87961921050162
+episode: 933/2500, score: 1000, e: 0.084, reward: -94.65091734570242, runningAvg: 93.73031904630888
+episode: 934/2500, score: 518, e: 0.084, reward: 174.61146344746572, runningAvg: 93.25900692694914
+episode: 935/2500, score: 330, e: 0.083, reward: 202.72758920746102, runningAvg: 94.7894116303259
+episode: 936/2500, score: 804, e: 0.083, reward: 147.30572090789306, runningAvg: 94.4807880111191
+episode: 937/2500, score: 733, e: 0.083, reward: 116.09585005501927, runningAvg: 93.95988569861834
+episode: 938/2500, score: 231, e: 0.082, reward: 242.43548269187576, runningAvg: 96.11245178774152
+episode: 939/2500, score: 334, e: 0.082, reward: 200.7132610546169, runningAvg: 97.68995142404033
+episode: 940/2500, score: 310, e: 0.082, reward: 190.1149745540161, runningAvg: 98.17201555908593
+episode: 941/2500, score: 173, e: 0.081, reward: 22.373419641914822, runningAvg: 97.89758906760447
+episode: 942/2500, score: 319, e: 0.081, reward: 197.27392076821184, runningAvg: 97.9342643254041
+episode: 943/2500, score: 281, e: 0.081, reward: 208.1271286245202, runningAvg: 98.23203036576339
+episode: 944/2500, score: 307, e: 0.08, reward: 211.2350976702778, runningAvg: 98.9623117625032
+episode: 945/2500, score: 234, e: 0.08, reward: 231.43039958850625, runningAvg: 100.30335158979997
+episode: 946/2500, score: 248, e: 0.08, reward: 252.67102512183425, runningAvg: 101.74682000930679
+episode: 947/2500, score: 370, e: 0.079, reward: 210.88697244691505, runningAvg: 104.05214151872109
+episode: 948/2500, score: 188, e: 0.079, reward: 253.60375792110077, runningAvg: 104.85746627449404
+episode: 949/2500, score: 271, e: 0.079, reward: 210.9458193047001, runningAvg: 104.95823236454159
+episode: 950/2500, score: 267, e: 0.078, reward: 206.044190570294, runningAvg: 106.83887259990902
+episode: 951/2500, score: 260, e: 0.078, reward: 208.71380651570686, runningAvg: 108.59887465644182
+episode: 952/2500, score: 227, e: 0.078, reward: 226.28875799082633, runningAvg: 110.80998488678621
+episode: 953/2500, score: 257, e: 0.077, reward: 190.39350502446266, runningAvg: 111.79767030566661
+episode: 954/2500, score: 294, e: 0.077, reward: 205.31212359981544, runningAvg: 112.88076051675918
+episode: 955/2500, score: 246, e: 0.077, reward: 228.8077568853793, runningAvg: 115.78223409487214
+episode: 956/2500, score: 250, e: 0.076, reward: 190.19253989476752, runningAvg: 115.8155019671987
+episode: 957/2500, score: 236, e: 0.076, reward: 176.98408887200821, runningAvg: 117.63116907717412
+episode: 958/2500, score: 106, e: 0.076, reward: 4.5225304047323505, runningAvg: 117.9466465404028
+episode: 959/2500, score: 235, e: 0.076, reward: 249.5440345208284, runningAvg: 120.29439749344563
+episode: 960/2500, score: 234, e: 0.075, reward: 237.29423420261148, runningAvg: 122.86178927063459
+episode: 961/2500, score: 177, e: 0.075, reward: 238.9381686673573, runningAvg: 124.56607550882393
+episode: 962/2500, score: 227, e: 0.075, reward: 213.10258883920304, runningAvg: 124.64465425610317
+episode: 963/2500, score: 259, e: 0.074, reward: 212.45779701915552, runningAvg: 124.6228602555152
+episode: 964/2500, score: 801, e: 0.074, reward: 206.71926806831675, runningAvg: 126.77507217576007
+episode: 965/2500, score: 241, e: 0.074, reward: 212.68316990689138, runningAvg: 126.70639980567775
+episode: 966/2500, score: 203, e: 0.073, reward: 260.94429443567776, runningAvg: 127.25510764333124
+episode: 967/2500, score: 125, e: 0.073, reward: 13.81363585391746, runningAvg: 126.13450852709694
+episode: 968/2500, score: 183, e: 0.073, reward: 222.52495551590556, runningAvg: 128.23841854400385
+episode: 969/2500, score: 409, e: 0.073, reward: 246.30236236346832, runningAvg: 128.21810851174817
+episode: 970/2500, score: 311, e: 0.072, reward: 213.25270314490322, runningAvg: 128.610001737648
+episode: 971/2500, score: 184, e: 0.072, reward: 208.84155005077622, runningAvg: 128.45144874193977
+episode: 972/2500, score: 190, e: 0.072, reward: 220.35292267020077, runningAvg: 130.14535344982966
+episode: 973/2500, score: 98, e: 0.071, reward: 0.18528235717238317, runningAvg: 129.07788570287826
+episode: 974/2500, score: 267, e: 0.071, reward: 260.57411949839855, runningAvg: 131.5377229955231
+episode: 975/2500, score: 259, e: 0.071, reward: 236.6497396020602, runningAvg: 132.78718363289994
+episode: 976/2500, score: 384, e: 0.071, reward: 163.75854784553997, runningAvg: 133.62532000646067
+episode: 977/2500, score: 200, e: 0.07, reward: 233.657112966477, runningAvg: 134.1673925458083
+episode: 978/2500, score: 201, e: 0.07, reward: 263.1684553343382, runningAvg: 134.77688182018156
+episode: 979/2500, score: 215, e: 0.07, reward: 217.41227307008947, runningAvg: 136.67180426278443
+episode: 980/2500, score: 210, e: 0.069, reward: 265.2438265826015, runningAvg: 137.0028250086531
+episode: 981/2500, score: 104, e: 0.069, reward: -56.78757814146781, runningAvg: 136.79474118203768
+episode: 982/2500, score: 92, e: 0.069, reward: -26.34620968130976, runningAvg: 135.44320861779335
+episode: 983/2500, score: 335, e: 0.069, reward: 189.32959741837425, runningAvg: 136.61887999343006
+episode: 984/2500, score: 255, e: 0.068, reward: 233.7152056033463, runningAvg: 138.84722453802428
+episode: 985/2500, score: 191, e: 0.068, reward: 249.64700229965626, runningAvg: 141.03379412528508
+episode: 986/2500, score: 393, e: 0.068, reward: 166.7661202041056, runningAvg: 140.7602964245936
+episode: 987/2500, score: 350, e: 0.068, reward: 270.0187955669678, runningAvg: 143.168872232013
+episode: 988/2500, score: 306, e: 0.067, reward: 230.33219307488457, runningAvg: 144.63341623674054
+episode: 989/2500, score: 179, e: 0.067, reward: 262.87935748182565, runningAvg: 145.7152148636569
+episode: 990/2500, score: 256, e: 0.067, reward: 234.31440875617167, runningAvg: 145.95927880261746
+episode: 991/2500, score: 341, e: 0.066, reward: 188.44021026050714, runningAvg: 146.0613028105666
+episode: 992/2500, score: 864, e: 0.066, reward: 112.64096904351084, runningAvg: 145.40719356847484
+episode: 993/2500, score: 147, e: 0.066, reward: 10.212280986534154, runningAvg: 144.2211879497712
+episode: 994/2500, score: 1000, e: 0.066, reward: -29.813244468191144, runningAvg: 144.59923504794912
+episode: 995/2500, score: 210, e: 0.065, reward: 253.8510889304787, runningAvg: 146.42631008092994
+episode: 996/2500, score: 244, e: 0.065, reward: 216.6696560611615, runningAvg: 148.85365043852897
+episode: 997/2500, score: 393, e: 0.065, reward: 193.8459924282619, runningAvg: 151.40213118190903
+episode: 998/2500, score: 472, e: 0.065, reward: -199.11575518803048, runningAvg: 150.51937637582586
+episode: 999/2500, score: 936, e: 0.064, reward: 126.92843219205687, runningAvg: 151.40078285515548
+episode: 1000/2500, score: 357, e: 0.064, reward: 184.80442997915713, runningAvg: 151.7241012404105
+episode: 1001/2500, score: 232, e: 0.064, reward: 203.567360204034, runningAvg: 151.74660236326983
+episode: 1002/2500, score: 407, e: 0.064, reward: 149.79132762478952, runningAvg: 151.4634907690847
+episode: 1003/2500, score: 219, e: 0.063, reward: 222.26030725350228, runningAvg: 151.73311875449073
+episode: 1004/2500, score: 88, e: 0.063, reward: -57.250165888357586, runningAvg: 152.86870249614418
+episode: 1005/2500, score: 165, e: 0.063, reward: -157.22398062429096, runningAvg: 150.6900172378023
+episode: 1006/2500, score: 349, e: 0.063, reward: 155.97065056654168, runningAvg: 151.92084332671382
+episode: 1007/2500, score: 280, e: 0.062, reward: 152.84937429446455, runningAvg: 153.04041397663428
+episode: 1008/2500, score: 209, e: 0.062, reward: 224.55885418166875, runningAvg: 153.26074847597073
+episode: 1009/2500, score: 99, e: 0.062, reward: -38.0651373773338, runningAvg: 151.44765483149385
+episode: 1010/2500, score: 267, e: 0.062, reward: -182.6890512936331, runningAvg: 148.96137628129202
+episode: 1011/2500, score: 251, e: 0.061, reward: 239.81730991849963, runningAvg: 150.71447050960072
+episode: 1012/2500, score: 435, e: 0.061, reward: 125.36500757045361, runningAvg: 149.81134014151073
+episode: 1013/2500, score: 213, e: 0.061, reward: 189.41698755106205, runningAvg: 150.30345923938657
+episode: 1014/2500, score: 236, e: 0.061, reward: 178.74513147225332, runningAvg: 149.95456364913736
+episode: 1015/2500, score: 243, e: 0.06, reward: 234.23652743519798, runningAvg: 150.1085852243575
+episode: 1016/2500, score: 368, e: 0.06, reward: 161.4335720964364, runningAvg: 149.6102645070452
+episode: 1017/2500, score: 317, e: 0.06, reward: 180.39109308165175, runningAvg: 149.85247853434828
+episode: 1018/2500, score: 257, e: 0.06, reward: 234.0341583341367, runningAvg: 151.46995611284686
+episode: 1019/2500, score: 208, e: 0.059, reward: 233.62919737523248, runningAvg: 153.30682350224478
+episode: 1020/2500, score: 211, e: 0.059, reward: 252.1514904051798, runningAvg: 153.41342866861615
+episode: 1021/2500, score: 305, e: 0.059, reward: 253.05727584223894, runningAvg: 153.3445107015683
+episode: 1022/2500, score: 613, e: 0.059, reward: 186.90873026272752, runningAvg: 153.2108021225202
+episode: 1023/2500, score: 219, e: 0.058, reward: 255.7839152116621, runningAvg: 153.83726743791144
+episode: 1024/2500, score: 284, e: 0.058, reward: 169.88363591898678, runningAvg: 155.86093717137334
+episode: 1025/2500, score: 214, e: 0.058, reward: 204.89057932032574, runningAvg: 156.46319369320648
+episode: 1026/2500, score: 186, e: 0.058, reward: 184.97266501032558, runningAvg: 158.37989202730907
+episode: 1027/2500, score: 431, e: 0.058, reward: -238.7676335696135, runningAvg: 155.46486766382776
+episode: 1028/2500, score: 757, e: 0.057, reward: 191.4902137445252, runningAvg: 155.68471802989515
+episode: 1029/2500, score: 784, e: 0.057, reward: 190.25110447791775, runningAvg: 157.70629545294227
+episode: 1030/2500, score: 273, e: 0.057, reward: 214.17940566395345, runningAvg: 158.2783626093975
+episode: 1031/2500, score: 1000, e: 0.057, reward: -52.58771117954642, runningAvg: 156.65171509102632
+episode: 1032/2500, score: 252, e: 0.056, reward: 218.6162484555914, runningAvg: 157.11150847412233
+episode: 1033/2500, score: 383, e: 0.056, reward: 147.03912665624517, runningAvg: 156.38823557694764
+episode: 1034/2500, score: 221, e: 0.056, reward: 261.0638052054302, runningAvg: 156.93398993570665
+episode: 1035/2500, score: 261, e: 0.056, reward: 232.7471561482115, runningAvg: 157.42109014201716
+episode: 1036/2500, score: 450, e: 0.055, reward: 102.4225238211353, runningAvg: 156.813410466172
+episode: 1037/2500, score: 218, e: 0.055, reward: 217.8380758898784, runningAvg: 156.854542965513
+episode: 1038/2500, score: 244, e: 0.055, reward: 179.38485688984593, runningAvg: 158.6154741439984
+episode: 1039/2500, score: 195, e: 0.055, reward: 195.13163452758812, runningAvg: 160.05803640322193
+episode: 1040/2500, score: 228, e: 0.055, reward: 196.7275065314077, runningAvg: 161.68346038190504
+episode: 1041/2500, score: 178, e: 0.054, reward: 208.57278215168205, runningAvg: 161.63849322028176
+episode: 1042/2500, score: 1000, e: 0.054, reward: 114.88589821583929, runningAvg: 160.85090448581593
+episode: 1043/2500, score: 251, e: 0.054, reward: 254.8625973159696, runningAvg: 162.67842853576713
+episode: 1044/2500, score: 523, e: 0.054, reward: 180.70403929184093, runningAvg: 162.24466008315824
+episode: 1045/2500, score: 248, e: 0.054, reward: 247.90904403290756, runningAvg: 162.54974542527322
+episode: 1046/2500, score: 189, e: 0.053, reward: 237.33530804491545, runningAvg: 164.36202061935415
+episode: 1047/2500, score: 211, e: 0.053, reward: 262.30821343707856, runningAvg: 166.12672084063053
+episode: 1048/2500, score: 265, e: 0.053, reward: 213.57411557675385, runningAvg: 165.80585976031878
+episode: 1049/2500, score: 286, e: 0.053, reward: 248.85796176718748, runningAvg: 165.99079375730193
+episode: 1050/2500, score: 423, e: 0.052, reward: 202.89591241563616, runningAvg: 167.22748380864468
+episode: 1051/2500, score: 370, e: 0.052, reward: 141.90056758007722, runningAvg: 168.35198574576648
+episode: 1052/2500, score: 318, e: 0.052, reward: 223.81100453366645, runningAvg: 169.88249120506848
+episode: 1053/2500, score: 199, e: 0.052, reward: 189.22381611617948, runningAvg: 170.01642609014456
+episode: 1054/2500, score: 332, e: 0.052, reward: 139.91070073877407, runningAvg: 169.43169418857184
+episode: 1055/2500, score: 297, e: 0.051, reward: 205.98779136948838, runningAvg: 169.34113704785187
+episode: 1056/2500, score: 247, e: 0.051, reward: 202.98495618031586, runningAvg: 169.0903054792768
+episode: 1057/2500, score: 267, e: 0.051, reward: 210.18156132971498, runningAvg: 169.759803457467
+episode: 1058/2500, score: 316, e: 0.051, reward: 206.74625892623084, runningAvg: 169.57101440323595
+episode: 1059/2500, score: 201, e: 0.051, reward: 183.03013856578565, runningAvg: 169.3380341738804
+episode: 1060/2500, score: 256, e: 0.05, reward: 184.24147467508624, runningAvg: 169.4058296504699
+episode: 1061/2500, score: 271, e: 0.05, reward: 174.39148086921577, runningAvg: 169.26985362489066
+episode: 1062/2500, score: 337, e: 0.05, reward: 208.69412101786642, runningAvg: 169.30304186844936
+episode: 1063/2500, score: 212, e: 0.05, reward: 236.83778607713475, runningAvg: 169.33938835486063
+episode: 1064/2500, score: 302, e: 0.05, reward: 167.11947668595934, runningAvg: 169.2356905717567
+episode: 1065/2500, score: 331, e: 0.049, reward: 214.04745705827946, runningAvg: 171.19719724761796
+episode: 1066/2500, score: 208, e: 0.049, reward: 230.36546478202894, runningAvg: 171.71189035156425
+episode: 1067/2500, score: 215, e: 0.049, reward: 211.4634530923596, runningAvg: 171.86921062755712
+episode: 1068/2500, score: 250, e: 0.049, reward: 173.1000871500086, runningAvg: 171.81557172603405
+episode: 1069/2500, score: 291, e: 0.049, reward: 170.82229135079666, runningAvg: 171.54055969868134
+episode: 1070/2500, score: 346, e: 0.048, reward: 179.62777852761928, runningAvg: 172.1713281769737
+episode: 1071/2500, score: 214, e: 0.048, reward: 244.65150239022168, runningAvg: 172.48963946467526
+episode: 1072/2500, score: 229, e: 0.048, reward: 263.1996127090089, runningAvg: 174.6373449365058
+episode: 1073/2500, score: 361, e: 0.048, reward: 179.69415520085758, runningAvg: 174.25626076748023
+episode: 1074/2500, score: 238, e: 0.048, reward: 233.34049583043296, runningAvg: 174.8207771128872
+episode: 1075/2500, score: 218, e: 0.047, reward: 229.15585765821785, runningAvg: 174.72098689303465
+episode: 1076/2500, score: 348, e: 0.047, reward: 173.54787554724652, runningAvg: 174.4595505571259
+episode: 1077/2500, score: 362, e: 0.047, reward: 179.2157837700281, runningAvg: 175.08243240449494
+episode: 1078/2500, score: 359, e: 0.047, reward: 184.18219804440776, runningAvg: 174.8608926832599
+episode: 1079/2500, score: 320, e: 0.047, reward: 168.0574266890737, runningAvg: 174.82128818346493
+episode: 1080/2500, score: 470, e: 0.047, reward: 185.60296266812756, runningAvg: 174.84813749008336
+episode: 1081/2500, score: 659, e: 0.046, reward: 201.32062306675488, runningAvg: 174.7603278827319
+episode: 1082/2500, score: 912, e: 0.046, reward: 172.62780102891895, runningAvg: 176.5328481548836
+episode: 1083/2500, score: 236, e: 0.046, reward: 189.46545001213966, runningAvg: 178.42695727060254
+episode: 1084/2500, score: 362, e: 0.046, reward: 230.52801003352408, runningAvg: 178.79973424784293
+episode: 1085/2500, score: 211, e: 0.046, reward: 254.30227353615962, runningAvg: 179.14356547670093
+episode: 1086/2500, score: 239, e: 0.045, reward: 224.66165134139845, runningAvg: 179.65927167959094
+episode: 1087/2500, score: 393, e: 0.045, reward: 162.5585668533921, runningAvg: 179.96902312491343
+episode: 1088/2500, score: 281, e: 0.045, reward: 213.0745323666506, runningAvg: 179.7732834560786
+episode: 1089/2500, score: 251, e: 0.045, reward: 245.35828485701725, runningAvg: 180.0709169480946
+episode: 1090/2500, score: 174, e: 0.045, reward: 219.51889288601922, runningAvg: 180.26694307030795
+episode: 1091/2500, score: 263, e: 0.045, reward: 193.68904084947874, runningAvg: 181.4090472116917
+episode: 1092/2500, score: 170, e: 0.044, reward: 225.501550260812, runningAvg: 181.59723140830903
+episode: 1093/2500, score: 222, e: 0.044, reward: 239.1822781010216, runningAvg: 181.80426573815242
+episode: 1094/2500, score: 282, e: 0.044, reward: 142.29861735816507, runningAvg: 181.34468920273832
+episode: 1095/2500, score: 248, e: 0.044, reward: 185.23121870565902, runningAvg: 181.03669466351934
+episode: 1096/2500, score: 273, e: 0.044, reward: 202.07865355113324, runningAvg: 180.69941218638135
+episode: 1097/2500, score: 408, e: 0.043, reward: 173.64089913790633, runningAvg: 180.45110503098795
+episode: 1098/2500, score: 214, e: 0.043, reward: 202.1456905085027, runningAvg: 180.10805124823727
+episode: 1099/2500, score: 243, e: 0.043, reward: 236.22097638749952, runningAvg: 180.27655229545596
+episode: 1100/2500, score: 267, e: 0.043, reward: 214.0377140401954, runningAvg: 180.32984245192193
+episode: 1101/2500, score: 203, e: 0.043, reward: 197.4611946862329, runningAvg: 180.25482503972546
+episode: 1102/2500, score: 270, e: 0.043, reward: 233.88032000816116, runningAvg: 180.30543545317434
+episode: 1103/2500, score: 320, e: 0.042, reward: 151.03363956404417, runningAvg: 180.0430363501049
+episode: 1104/2500, score: 112, e: 0.042, reward: 9.582483256912383, runningAvg: 178.73817208115221
+episode: 1105/2500, score: 347, e: 0.042, reward: 189.71137165136236, runningAvg: 178.47752951292543
+episode: 1106/2500, score: 198, e: 0.042, reward: 253.0748987635676, runningAvg: 178.89674523871744
+episode: 1107/2500, score: 191, e: 0.042, reward: 194.84745517404053, runningAvg: 179.01583434739766
+episode: 1108/2500, score: 234, e: 0.042, reward: 225.35746534535753, runningAvg: 180.48806724700182
+episode: 1109/2500, score: 229, e: 0.041, reward: 230.51796405790267, runningAvg: 180.36122677724902
+episode: 1110/2500, score: 264, e: 0.041, reward: 224.11472191000692, runningAvg: 180.27336336196495
+episode: 1111/2500, score: 182, e: 0.041, reward: 231.48583747432798, runningAvg: 180.22368115401144
+episode: 1112/2500, score: 206, e: 0.041, reward: 248.36358136668989, runningAvg: 180.458754437528
+episode: 1113/2500, score: 281, e: 0.041, reward: 231.59799362161976, runningAvg: 180.5863557482111
+episode: 1114/2500, score: 244, e: 0.041, reward: 207.64748750666178, runningAvg: 180.59254387780004
+episode: 1115/2500, score: 235, e: 0.04, reward: 243.39863794591247, runningAvg: 180.7973136647269
+episode: 1116/2500, score: 187, e: 0.04, reward: 208.66762419328046, runningAvg: 180.44880252977757
+episode: 1117/2500, score: 222, e: 0.04, reward: 232.73501003461698, runningAvg: 181.9082783576489
+episode: 1118/2500, score: 265, e: 0.04, reward: 214.66996668640917, runningAvg: 181.85591176545222
+episode: 1119/2500, score: 391, e: 0.04, reward: 238.9711068710118, runningAvg: 181.80703672883587
+episode: 1120/2500, score: 499, e: 0.04, reward: 216.94531499433168, runningAvg: 181.83165414116536
+episode: 1121/2500, score: 296, e: 0.039, reward: 209.53287516119684, runningAvg: 181.83626297523483
+episode: 1122/2500, score: 916, e: 0.039, reward: 191.13158551874537, runningAvg: 181.6414540608918
+episode: 1123/2500, score: 229, e: 0.039, reward: 205.33957892992441, runningAvg: 183.00914937137685
+episode: 1124/2500, score: 400, e: 0.039, reward: 202.6480519704756, runningAvg: 182.62297558785738
+episode: 1125/2500, score: 379, e: 0.039, reward: 205.3361399740631, runningAvg: 182.41421825700405
+episode: 1126/2500, score: 176, e: 0.039, reward: 199.43577316042422, runningAvg: 182.65206642577
+episode: 1127/2500, score: 268, e: 0.039, reward: 220.63525708829195, runningAvg: 182.5652540532487
+episode: 1128/2500, score: 172, e: 0.038, reward: 184.4459484608681, runningAvg: 182.04043734075893
+episode: 1129/2500, score: 408, e: 0.038, reward: 253.03203733911144, runningAvg: 182.27790243588572
+episode: 1130/2500, score: 200, e: 0.038, reward: 221.9293775047559, runningAvg: 181.98913944203343
+episode: 1131/2500, score: 203, e: 0.038, reward: 191.48121744665696, runningAvg: 183.64426474595422
+episode: 1132/2500, score: 231, e: 0.038, reward: 223.70700233344576, runningAvg: 185.31128615938593
+episode: 1133/2500, score: 233, e: 0.038, reward: 259.51404694414134, runningAvg: 185.77918248955774
+episode: 1134/2500, score: 155, e: 0.037, reward: 203.75197064952192, runningAvg: 185.5794275898656
+episode: 1135/2500, score: 336, e: 0.037, reward: 243.76560738577103, runningAvg: 185.5402182904397
+episode: 1136/2500, score: 177, e: 0.037, reward: 200.19434530953157, runningAvg: 185.76307312447585
+episode: 1137/2500, score: 313, e: 0.037, reward: 196.67176014664665, runningAvg: 185.2740928883404
+episode: 1138/2500, score: 227, e: 0.037, reward: 230.89390574001294, runningAvg: 185.27783763944123
+episode: 1139/2500, score: 174, e: 0.037, reward: 231.64327063583846, runningAvg: 185.06959706046797
+episode: 1140/2500, score: 216, e: 0.037, reward: 201.48258501907588, runningAvg: 184.85071823555404
+episode: 1141/2500, score: 215, e: 0.036, reward: 191.87847378059405, runningAvg: 184.8736399923546
+episode: 1142/2500, score: 216, e: 0.036, reward: 206.59334145147508, runningAvg: 185.49998914174103
+episode: 1143/2500, score: 219, e: 0.036, reward: 229.9283524273809, runningAvg: 186.9647629513467
+episode: 1144/2500, score: 300, e: 0.036, reward: 211.33983098504447, runningAvg: 188.57245012103493
+episode: 1145/2500, score: 225, e: 0.036, reward: 215.1327424290863, runningAvg: 188.31432781102566
+episode: 1146/2500, score: 213, e: 0.036, reward: 207.79219892744493, runningAvg: 188.2551447634675
+episode: 1147/2500, score: 271, e: 0.036, reward: 226.35113749417363, runningAvg: 188.47184573057356
+episode: 1148/2500, score: 206, e: 0.035, reward: 213.74289780477622, runningAvg: 191.22423675052565
+episode: 1149/2500, score: 221, e: 0.035, reward: 231.10755062812547, runningAvg: 191.9187642067661
+episode: 1150/2500, score: 165, e: 0.035, reward: 209.2524872296279, runningAvg: 192.08175125510255
+episode: 1151/2500, score: 252, e: 0.035, reward: 201.90789727150712, runningAvg: 192.0706881688857
+episode: 1152/2500, score: 651, e: 0.035, reward: 223.03059390083837, runningAvg: 192.55894994405938
+episode: 1153/2500, score: 321, e: 0.035, reward: 246.98825053833173, runningAvg: 192.72380289929154
+episode: 1154/2500, score: 279, e: 0.035, reward: 265.95928356626354, runningAvg: 194.87853256232233
+episode: 1155/2500, score: 245, e: 0.034, reward: 263.3857423666666, runningAvg: 197.6825973822621
+episode: 1156/2500, score: 160, e: 0.034, reward: 199.2790993483179, runningAvg: 197.97132037414056
+episode: 1157/2500, score: 151, e: 0.034, reward: 211.43267581500524, runningAvg: 198.36187571761084
+episode: 1158/2500, score: 257, e: 0.034, reward: 199.55306221370327, runningAvg: 198.19517043782443
+episode: 1159/2500, score: 486, e: 0.034, reward: 225.78431808635116, runningAvg: 199.9541668075823
+Run: 0, Total_Reward: 227.67812475880112
+Run: 1, Total_Reward: 237.407900919422
+Run: 2, Total_Reward: 225.9775661872648
+Run: 3, Total_Reward: 218.7444750085815
+Run: 4, Total_Reward: 105.245289774162
+Run: 5, Total_Reward: 238.14781384867442
+Run: 6, Total_Reward: 238.39516983805288
+Run: 7, Total_Reward: 212.2549195969788
+Run: 8, Total_Reward: 225.6134372000983
+Run: 9, Total_Reward: 237.05973683543476
+Run: 10, Total_Reward: 197.37017414702396
+Run: 11, Total_Reward: 221.9531399437359
+Run: 12, Total_Reward: 97.97233583105911
+Run: 13, Total_Reward: 232.6843728252747
+Run: 14, Total_Reward: 223.41662908926858
+Run: 15, Total_Reward: 211.21618571398386
+Run: 16, Total_Reward: 227.16697711877333
+Run: 17, Total_Reward: 222.55970962548537
+Run: 18, Total_Reward: 225.42155826014286
+Run: 19, Total_Reward: 216.76723929089317
+Run: 20, Total_Reward: 217.3783013050283
+Run: 21, Total_Reward: 244.05021837677882
+Run: 22, Total_Reward: 235.97704601092772
+Run: 23, Total_Reward: 209.87291968373626
+Run: 24, Total_Reward: 221.40393689112256
+Run: 25, Total_Reward: 216.64102302214474
+Run: 26, Total_Reward: 216.3190540954377
+Run: 27, Total_Reward: 227.4016130890476
+Run: 28, Total_Reward: 227.1107681079722
+Run: 29, Total_Reward: 211.92280485619585
+Run: 30, Total_Reward: 216.24245345864816
+Run: 31, Total_Reward: 234.0257803006211
+Run: 32, Total_Reward: 195.58756235973223
+Run: 33, Total_Reward: 238.336117012785
+Run: 34, Total_Reward: 240.5554260733923
+Run: 35, Total_Reward: 216.56244123848774
+Run: 36, Total_Reward: 212.49618822178576
+Run: 37, Total_Reward: 219.68124108305972
+Run: 38, Total_Reward: 224.8570449197425
+Run: 39, Total_Reward: 238.15893817055084
+Run: 40, Total_Reward: 211.0994122535605
+Run: 41, Total_Reward: 224.46209104540057
+Run: 42, Total_Reward: 200.49090942326958
+Run: 43, Total_Reward: 222.5431321387852
+Run: 44, Total_Reward: 234.44670795743826
+Run: 45, Total_Reward: 238.45173437876554
+Run: 46, Total_Reward: 217.63978826580467
+Run: 47, Total_Reward: 224.97789911321001
+Run: 48, Total_Reward: 236.7421375727098
+Run: 49, Total_Reward: 213.0016638148895
+Run: 50, Total_Reward: 235.5076190474417
+Run: 51, Total_Reward: 221.93189052230792
+Run: 52, Total_Reward: 110.03650477572342
+Run: 53, Total_Reward: 245.6213551045058
+Run: 54, Total_Reward: 244.42642061874722
+Run: 55, Total_Reward: 221.7162393959565
+Run: 56, Total_Reward: 247.34803145356366
+Run: 57, Total_Reward: 212.8313023120836
+Run: 58, Total_Reward: 231.98513841014127
+Run: 59, Total_Reward: 209.70156487702775
+Run: 60, Total_Reward: 234.1432435964676
+Run: 61, Total_Reward: 224.18199647253
+Run: 62, Total_Reward: 97.31030597373606
+Run: 63, Total_Reward: 236.65261454193498
+Run: 64, Total_Reward: 229.21487692316754
+Run: 65, Total_Reward: 228.03218326378865
+Run: 66, Total_Reward: 238.07524823814128
+Run: 67, Total_Reward: 236.20471374641608
+Run: 68, Total_Reward: 220.74213547057218
+Run: 69, Total_Reward: 101.54927275328669
+Run: 70, Total_Reward: 226.13626954477326
+Run: 71, Total_Reward: 249.23066285943653
+Run: 72, Total_Reward: 226.6410898044135
+Run: 73, Total_Reward: 238.89958518606608
+Run: 74, Total_Reward: 203.1083181186849
+Run: 75, Total_Reward: 199.88733800212276
+Run: 76, Total_Reward: 194.22989994090807
+Run: 77, Total_Reward: 75.63733525678278
+Run: 78, Total_Reward: 198.1394550199671
+Run: 79, Total_Reward: 243.2863328245238
+Run: 80, Total_Reward: 206.42014685546977
+Run: 81, Total_Reward: 219.27236257816077
+Run: 82, Total_Reward: 215.92151312688006
+Run: 83, Total_Reward: 199.30426579858633
+Run: 84, Total_Reward: 126.03464812507826
+Run: 85, Total_Reward: 215.48738969452677
+Run: 86, Total_Reward: 229.80693561584107
+Run: 87, Total_Reward: 240.01127172609444
+Run: 88, Total_Reward: 91.46834929175202
+Run: 89, Total_Reward: 210.04586237619338
+Run: 90, Total_Reward: 204.47610851374182
+Run: 91, Total_Reward: 211.20876510427718
+Run: 92, Total_Reward: 206.7598567356688
+Run: 93, Total_Reward: 219.91112949672365
+Run: 94, Total_Reward: 245.549763660176
+Run: 95, Total_Reward: 207.9994028115333
+Run: 96, Total_Reward: 123.58917059915589
+Run: 97, Total_Reward: 245.5494472089303
+Run: 98, Total_Reward: 105.30840393866498
+Run: 99, Total_Reward: 96.04886209324702
+210.34071709460073
+
+Process finished with exit code 0
+
